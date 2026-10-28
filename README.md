@@ -2,8 +2,8 @@
 
 專為國小高年級與中低年級打造的現代化奧林匹亞數學（Olympiad Math）啟蒙與思維訓練平台。涵蓋**三年級到六年級**完整專題體系、**28 個核心專題**、**84 道由淺入深的漸進題型**，以及**全套互動可視化教具模型**。
 
-🌐 **線上正式網址**：[https://omath-app.vercel.app](https://omath-app.vercel.app)  
-備用鏡像：[https://omath-hub.vercel.app](https://omath-hub.vercel.app)
+🌐 **線上正式網址**：[https://omath-hub.vercel.app](https://omath-hub.vercel.app)  
+備用別名：[https://omath-app.vercel.app](https://omath-app.vercel.app)
 
 ---
 
