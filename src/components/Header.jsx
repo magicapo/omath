@@ -8,8 +8,7 @@ export function Header({
   onSelectGrade,
   onOpenBadges,
   onOpenGuide,
-  onOpenWiki,
-  isWikiActive
+  onOpenWiki
 }) {
   const [isMuted, setIsMuted] = useState(sounds.muted);
 
@@ -105,18 +104,14 @@ export function Header({
             <div className="h-4 w-px bg-slate-200 hidden sm:block" />
 
             {/* Desktop Action Buttons */}
-            <div className="hidden sm:flex items-center gap-1">
+            <div className="hidden sm:flex items-center gap-1.5">
               <button
                 onClick={() => {
                   sounds.playClick();
                   onOpenWiki();
                 }}
-                title="奧數體系與領域指南 (首頁 Tab)"
-                className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
-                  isWikiActive
-                    ? 'bg-amber-500 text-white shadow-xs'
-                    : 'text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/70'
-                }`}
+                title="奧數體系與領域指南"
+                className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/70 transition-colors flex items-center gap-1.5 shadow-xs"
               >
                 <span>🏛️</span>
                 <span>奧數簡介</span>

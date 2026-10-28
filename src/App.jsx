@@ -44,7 +44,6 @@ export function App() {
   });
 
   const [currentView, setCurrentView] = useState('map'); // 'map' | 'challenge'
-  const [homeTab, setHomeTab] = useState('map'); // 'map' | 'wiki'
   const [activeTopic, setActiveTopic] = useState(null);
   const [activeLevel, setActiveLevel] = useState(null);
 
@@ -52,6 +51,7 @@ export function App() {
   const [isScratchpadOpen, setIsScratchpadOpen] = useState(false);
   const [isBadgesOpen, setIsBadgesOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [isWikiOpen, setIsWikiOpen] = useState(false);
   const [activeSimTopic, setActiveSimTopic] = useState(null);
 
   const currentTopics = TOPICS_BY_GRADE[currentGrade] || TOPICS_BY_GRADE[3];
@@ -74,18 +74,16 @@ export function App() {
     }
   }, [currentGrade]);
 
-  // Handle URL hash changes for level direct navigation and wiki tab
+  // Handle URL hash changes for level direct navigation and wiki modal
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.replace('#', '');
       if (!hash || hash === 'map') {
         setCurrentView('map');
-        setHomeTab('map');
         return;
       }
       if (hash === 'wiki' || hash === 'intro') {
-        setCurrentView('map');
-        setHomeTab('wiki');
+        setIsWikiOpen(true);
         return;
       }
 
@@ -194,7 +192,13 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleOpenWiki = () => {
+    sounds.playClick();
+    setIsWikiOpen(true);
+  };
+
   const handleBackToMap = () => {
+    sounds.playClick();
     setCurrentView('map');
     window.location.hash = '';
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -227,7 +231,8 @@ export function App() {
           setProgress(p => ({ ...p, newBadge: false }));
         }}
         onOpenGuide={() => setIsGuideOpen(true)}
-        onOpenWiki={() => setIsWikiOpen(true)}
+        onOpenWiki={handleOpenWiki}
+        isWikiActive={isWikiOpen}
       />
 
       {/* Main Container */}
@@ -239,7 +244,7 @@ export function App() {
             userProgress={progress}
             onSelectLevel={handleSelectLevel}
             onOpenSim={(topic) => setActiveSimTopic(topic)}
-            onOpenWiki={() => setIsWikiOpen(true)}
+            onOpenWiki={handleOpenWiki}
           />
         ) : (
           <ChallengeView
@@ -263,10 +268,10 @@ export function App() {
           </div>
           <div className="flex items-center gap-4">
             <button
-              onClick={() => setIsWikiOpen(true)}
-              className="hover:text-slate-900 transition-colors font-semibold text-slate-700"
+              onClick={handleOpenWiki}
+              className="hover:text-amber-600 transition-colors font-bold text-amber-700"
             >
-              🏛️ 奧數知識庫 (IMO)
+              🏛️ 奧數簡介 (IMO 百科)
             </button>
             <button
               onClick={() => setIsGuideOpen(true)}
@@ -309,12 +314,13 @@ export function App() {
         currentView={currentView}
         onNavigateToMap={handleBackToMap}
         onOpenScratchpad={() => setIsScratchpadOpen(true)}
-        onOpenWiki={() => setIsWikiOpen(true)}
+        onOpenWiki={handleOpenWiki}
         onOpenGuide={() => setIsGuideOpen(true)}
         onOpenBadges={() => {
           setIsBadgesOpen(true);
           setProgress(p => ({ ...p, newBadge: false }));
         }}
+        isWikiActive={isWikiOpen}
         newBadge={progress.newBadge}
       />
 
@@ -338,15 +344,20 @@ export function App() {
         defaultGrade={currentGrade}
       />
 
+      <OlympiadWikiModal
+        isOpen={isWikiOpen}
+        onClose={() => {
+          setIsWikiOpen(false);
+          if (window.location.hash === '#wiki' || window.location.hash === '#intro') {
+            window.location.hash = '';
+          }
+        }}
+      />
+
       <SimModal
         isOpen={!!activeSimTopic}
         onClose={() => setActiveSimTopic(null)}
         topic={activeSimTopic}
-      />
-
-      <OlympiadWikiModal
-        isOpen={isWikiOpen}
-        onClose={() => setIsWikiOpen(false)}
       />
     </div>
   );

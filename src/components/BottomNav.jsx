@@ -1,5 +1,5 @@
 import React from 'react';
-import { Map, PenTool, BookOpen, Award, Compass } from 'lucide-react';
+import { Map, PenTool, BookOpen, Award } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 export function BottomNav({
@@ -9,11 +9,8 @@ export function BottomNav({
   onOpenWiki,
   onOpenGuide,
   onOpenBadges,
-  isWikiActive,
   newBadge
 }) {
-  const isMapActive = currentView === 'map' && !isWikiActive;
-
   return (
     <nav 
       className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-slate-200/90 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-2 pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
@@ -27,13 +24,13 @@ export function BottomNav({
             onNavigateToMap();
           }}
           className={`flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all ${
-            isMapActive
+            currentView === 'map'
               ? 'text-amber-700 font-bold'
               : 'text-slate-500 font-medium hover:text-slate-800'
           }`}
         >
           <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform active:scale-90 ${
-            isMapActive ? 'bg-amber-100 text-amber-700 scale-105' : ''
+            currentView === 'map' ? 'bg-amber-100 text-amber-700 scale-105' : ''
           }`}>
             <Map className="w-4 h-4" />
           </div>
@@ -54,23 +51,15 @@ export function BottomNav({
           <span className="text-[10px] mt-0.5 tracking-tight">計算草稿</span>
         </button>
 
-        {/* 3. 奧數簡介 (首頁Tab) */}
+        {/* 3. 奧數簡介 */}
         <button
           onClick={() => {
             sounds.playClick();
             onOpenWiki();
           }}
-          className={`flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all active:scale-95 ${
-            isWikiActive
-              ? 'text-amber-700 font-bold'
-              : 'text-slate-500 font-medium hover:text-slate-800'
-          }`}
+          className="flex flex-col items-center justify-center py-1 px-1 rounded-xl text-slate-500 font-medium hover:text-slate-800 transition-all active:scale-95"
         >
-          <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-transform ${
-            isWikiActive
-              ? 'bg-amber-100 text-amber-700 scale-105'
-              : 'bg-amber-50 text-amber-700 hover:bg-amber-100'
-          }`}>
+          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors">
             <span className="text-sm">🏛️</span>
           </div>
           <span className="text-[10px] mt-0.5 tracking-tight">奧數簡介</span>
