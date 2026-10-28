@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { Star, Coins, Volume2, VolumeX, Award, BookOpen, Flame, Compass } from 'lucide-react';
+import { Star, Coins, Volume2, VolumeX, BookOpen, Flame, Compass } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 export function Header({
   stats,
   currentGrade,
   onSelectGrade,
-  onOpenBadges,
   onOpenGuide,
   onOpenWiki
 }) {
@@ -108,20 +107,6 @@ export function Header({
               >
                 <span>🏛️</span>
                 <span>奧數簡介</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  sounds.playClick();
-                  onOpenBadges();
-                }}
-                title="學習成就紀錄"
-                className="p-1.5 sm:p-2 rounded-lg text-slate-600 hover:text-amber-700 hover:bg-amber-50 transition-colors relative"
-              >
-                <Award className="w-4 h-4 sm:w-5 sm:h-5" />
-                {stats.newBadge && (
-                  <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full animate-ping" />
-                )}
               </button>
 
               <button

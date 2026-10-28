@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { TOPICS_BY_GRADE, ACHIEVEMENTS } from './data/topics';
+import { TOPICS_BY_GRADE } from './data/topics';
 import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { LevelMap } from './components/LevelMap';
 import { ChallengeView } from './components/ChallengeView';
-import { BadgesModal } from './components/BadgesModal';
 import { GuideModal } from './components/GuideModal';
 import { SimModal } from './components/SimModal';
 import { OlympiadWikiModal } from './components/OlympiadWikiModal';
@@ -36,9 +35,7 @@ export function App() {
       completedLevels: {},
       stars: 0,
       coins: 0,
-      streak: 0,
-      unlockedBadges: {},
-      newBadge: false
+      streak: 0
     };
   });
 
@@ -47,7 +44,6 @@ export function App() {
   const [activeLevel, setActiveLevel] = useState(null);
 
   // Modals
-  const [isBadgesOpen, setIsBadgesOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isWikiOpen, setIsWikiOpen] = useState(false);
   const [activeSimTopic, setActiveSimTopic] = useState(null);
@@ -104,49 +100,6 @@ export function App() {
     return () => window.removeEventListener('hashchange', handleHash);
   }, []);
 
-  // Check achievements helper
-  const triggerBadgeCheck = (newCompleted, newStreak, levelId) => {
-    const updatedBadges = { ...progress.unlockedBadges };
-    const totalDone = Object.values(newCompleted).filter(Boolean).length;
-    let earnedNew = false;
-
-    // 1. first-step
-    if (totalDone >= 1 && !updatedBadges['first-step']) {
-      updatedBadges['first-step'] = true;
-      earnedNew = true;
-    }
-
-    // 2. streak-3
-    if (newStreak >= 3 && !updatedBadges['streak-3']) {
-      updatedBadges['streak-3'] = true;
-      earnedNew = true;
-    }
-
-    // 3. perfect-island: any topic with 3 levels completed
-    const allTopics = [...TOPICS_BY_GRADE[3], ...TOPICS_BY_GRADE[4]];
-    const hasPerfectIsland = allTopics.some(t => 
-      t.levels.every(lvl => newCompleted[lvl.id])
-    );
-    if (hasPerfectIsland && !updatedBadges['perfect-island']) {
-      updatedBadges['perfect-island'] = true;
-      earnedNew = true;
-    }
-
-    // 4. grade4-explorer: any grade 4 level completed
-    if (levelId && levelId.startsWith('g4-') && !updatedBadges['grade4-explorer']) {
-      updatedBadges['grade4-explorer'] = true;
-      earnedNew = true;
-    }
-
-    // 5. master-all: total 21 stars
-    if (totalDone >= 21 && !updatedBadges['master-all']) {
-      updatedBadges['master-all'] = true;
-      earnedNew = true;
-    }
-
-    return { updatedBadges, earnedNew };
-  };
-
   const handleCompleteLevel = (levelId) => {
     const isAlreadyDone = !!progress.completedLevels[levelId];
     const newCompleted = {
@@ -159,16 +112,12 @@ export function App() {
     const coinsReward = isAlreadyDone ? 2 : 10;
     const newCoins = progress.coins + coinsReward;
 
-    const { updatedBadges, earnedNew } = triggerBadgeCheck(newCompleted, newStreak, levelId);
-
     setProgress(prev => ({
       ...prev,
       completedLevels: newCompleted,
       stars: newStars,
       coins: newCoins,
-      streak: newStreak,
-      unlockedBadges: updatedBadges,
-      newBadge: earnedNew || prev.newBadge
+      streak: newStreak
     }));
   };
 
@@ -211,12 +160,7 @@ export function App() {
           stars: gradeCompletedCount,
           totalStars: progress.stars,
           coins: progress.coins,
-          streak: progress.streak,
-          newBadge: progress.newBadge
-        }}
-        onOpenBadges={() => {
-          setIsBadgesOpen(true);
-          setProgress(p => ({ ...p, newBadge: false }));
+          streak: progress.streak
         }}
         onOpenGuide={() => setIsGuideOpen(true)}
         onOpenWiki={handleOpenWiki}
@@ -287,22 +231,9 @@ export function App() {
         onNavigateToMap={handleBackToMap}
         onOpenWiki={handleOpenWiki}
         onOpenGuide={() => setIsGuideOpen(true)}
-        onOpenBadges={() => {
-          setIsBadgesOpen(true);
-          setProgress(p => ({ ...p, newBadge: false }));
-        }}
-        isWikiActive={isWikiOpen}
-        newBadge={progress.newBadge}
       />
 
       {/* Modals */}
-      <BadgesModal
-        isOpen={isBadgesOpen}
-        onClose={() => setIsBadgesOpen(false)}
-        badges={ACHIEVEMENTS}
-        unlockedBadges={progress.unlockedBadges}
-      />
-
       <GuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
