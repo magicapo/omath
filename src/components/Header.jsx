@@ -30,7 +30,7 @@ export function Header({
                 </span>
               </div>
               <p className="text-[11px] font-medium text-slate-400 hidden md:block">
-                小學數學模型與邏輯思維 · 三年級與四年級
+                小學數學模型與邏輯思維 · 三至六年級
               </p>
             </div>
           </div>

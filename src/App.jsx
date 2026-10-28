@@ -189,7 +189,7 @@ export function App() {
           <div className="flex items-center gap-2">
             <span className="font-semibold text-slate-700">📐 奧數思維訓練</span>
             <span>·</span>
-            <span>三年級基礎篇 & 四年級進階篇</span>
+            <span>三至六年級完整專題體系</span>
           </div>
           <div className="flex items-center gap-4">
             <button
