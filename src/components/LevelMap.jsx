@@ -101,7 +101,8 @@ export function LevelMap({
             return (
               <div
                 key={topic.id}
-                className="bg-white rounded-xl sm:rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden"
+                id={`topic-card-${topic.id}`}
+                className="bg-white rounded-xl sm:rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden scroll-mt-24 sm:scroll-mt-28"
               >
                 {/* Topic Header */}
                 <div className={`p-4 bg-gradient-to-br ${topic.color} text-white`}>

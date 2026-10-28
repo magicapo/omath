@@ -125,11 +125,23 @@ export function App() {
     setIsWikiOpen(true);
   };
 
-  const handleBackToMap = () => {
+  const handleBackToMap = (targetTopicId) => {
     sounds.playClick();
     setCurrentView('map');
     window.location.hash = '';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    if (targetTopicId) {
+      setTimeout(() => {
+        const el = document.getElementById(`topic-card-${targetTopicId}`);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   const handleSelectGrade = (newGrade) => {
@@ -165,6 +177,7 @@ export function App() {
           />
         ) : (
           <ChallengeView
+            gradeTopics={currentTopics}
             topic={activeTopic}
             level={activeLevel}
             onBack={handleBackToMap}

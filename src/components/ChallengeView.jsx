@@ -14,6 +14,7 @@ import { DynamicSimulator } from './Simulators';
 import { sounds } from '../utils/audio';
 
 export function ChallengeView({
+  gradeTopics = [],
   topic,
   level,
   onBack,
@@ -64,6 +65,21 @@ export function ChallengeView({
   // Find next level in this topic
   const currentLvlIndex = topic.levels.findIndex(l => l.id === level.id);
   const nextLevel = topic.levels[currentLvlIndex + 1];
+
+  // Find next topic in the current grade
+  const currentTopicIndex = gradeTopics.findIndex(t => t.id === topic.id);
+  const nextTopic = currentTopicIndex >= 0 && currentTopicIndex < gradeTopics.length - 1
+    ? gradeTopics[currentTopicIndex + 1]
+    : null;
+
+  const handleCompleteTopicAndNavigate = () => {
+    sounds.playClick();
+    if (nextTopic) {
+      onBack(nextTopic.id);
+    } else {
+      onBack();
+    }
+  };
 
   const hasLongOptions = level.options?.some(opt => String(opt).length > 6);
 
@@ -285,11 +301,13 @@ export function ChallengeView({
                   </button>
                 ) : (
                   <button
-                    onClick={onBack}
-                    className="w-full sm:w-auto px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-emerald-950 bg-emerald-200/80 hover:bg-emerald-200 transition-all flex items-center justify-center gap-1.5 shrink-0"
+                    onClick={handleCompleteTopicAndNavigate}
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 transition-all flex items-center justify-center gap-1.5 shrink-0 shadow-sm active:scale-98"
                   >
-                    <span>已完成本單元所有題目</span>
-                    <CheckCircle2 className="w-4 h-4" />
+                    <span>
+                      {nextTopic ? `完成本專題！前往下一個專題：${nextTopic.title}` : '已完成全部專題'}
+                    </span>
+                    <ChevronRight className="w-4 h-4 text-amber-400" />
                   </button>
                 )}
               </div>
