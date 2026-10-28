@@ -25,7 +25,7 @@ export function ChallengeView({
 }) {
   const [selectedOption, setSelectedOption] = useState('');
   const [inputVal, setInputVal] = useState('');
-  const [revealedHints, setRevealedHints] = useState(0);
+  const [revealedHints, setRevealedHints] = useState(isCompleted ? (level.hints?.length || 0) : 0);
   const [showSim, setShowSim] = useState(false);
   const [resultStatus, setResultStatus] = useState(isCompleted ? 'success' : 'idle'); // 'idle' | 'success' | 'error'
   const [showFullExplanation, setShowFullExplanation] = useState(isCompleted);
@@ -36,23 +36,14 @@ export function ChallengeView({
     if (!cleanAnswer) return;
 
     if (cleanAnswer === String(level.correctAnswer).trim()) {
-      sounds.playSuccess();
+      // 不需要音效與彩帶，展開所有提示並顯示下一題按鈕
       setResultStatus('success');
       setShowFullExplanation(true);
-
-      try {
-        confetti({
-          particleCount: 50,
-          spread: 60,
-          origin: { y: 0.6 }
-        });
-      } catch (err) {
-        // ignore if not supported
+      if (level.hints && level.hints.length > 0) {
+        setRevealedHints(level.hints.length);
       }
-
       onCompleteLevel(level.id);
     } else {
-      sounds.playError();
       setResultStatus('error');
     }
   };
@@ -271,17 +262,40 @@ export function ChallengeView({
           )}
 
           {resultStatus === 'success' && (
-            <div className="p-4 rounded-lg bg-emerald-50 border border-emerald-300 space-y-2">
-              <div className="flex items-center gap-3">
-                <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
-                <div>
-                  <div className="font-bold text-sm sm:text-base text-emerald-950">
-                    解答正確！已掌握本題核心解法。
+            <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-300 space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0" />
+                  <div>
+                    <div className="font-bold text-sm sm:text-base text-emerald-950">
+                      解答正確！
+                    </div>
+                    <p className="text-xs text-emerald-700 font-medium">
+                      題目思路已全部展開，請閱讀步驟解析或直接進入下一題。
+                    </p>
                   </div>
-                  <p className="text-xs text-emerald-700 font-medium">
-                    可閱讀下方詳細步驟解析，鞏固數學思維。
-                  </p>
                 </div>
+
+                {nextLevel ? (
+                  <button
+                    onClick={() => {
+                      onCompleteLevel(level.id);
+                      window.location.hash = `#${nextLevel.id}`;
+                    }}
+                    className={`w-full sm:w-auto px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-white shadow-sm flex items-center justify-center gap-1.5 transition-all active:scale-98 bg-gradient-to-r ${topic.color} shrink-0`}
+                  >
+                    <span>下一題：{nextLevel.name}</span>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <button
+                    onClick={onBack}
+                    className="w-full sm:w-auto px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-emerald-950 bg-emerald-200/80 hover:bg-emerald-200 transition-all flex items-center justify-center gap-1.5 shrink-0"
+                  >
+                    <span>已完成本單元所有題目</span>
+                    <CheckCircle2 className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </div>
           )}
