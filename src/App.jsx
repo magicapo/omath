@@ -4,10 +4,9 @@ import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { LevelMap } from './components/LevelMap';
 import { ChallengeView } from './components/ChallengeView';
+import { OlympiadWikiView } from './components/OlympiadWikiView';
 import { GuideModal } from './components/GuideModal';
 import { SimModal } from './components/SimModal';
-import { OlympiadWikiModal } from './components/OlympiadWikiModal';
-import { sounds } from './utils/audio';
 
 const STORAGE_KEY = 'OMATH_GRADE_PROGRESS_V2';
 
@@ -39,13 +38,12 @@ export function App() {
     };
   });
 
-  const [currentView, setCurrentView] = useState('map'); // 'map' | 'challenge'
+  const [currentView, setCurrentView] = useState('map'); // 'map' | 'wiki' | 'challenge'
   const [activeTopic, setActiveTopic] = useState(null);
   const [activeLevel, setActiveLevel] = useState(null);
 
   // Modals
   const [isGuideOpen, setIsGuideOpen] = useState(false);
-  const [isWikiOpen, setIsWikiOpen] = useState(false);
   const [activeSimTopic, setActiveSimTopic] = useState(null);
 
   const currentTopics = TOPICS_BY_GRADE[currentGrade] || TOPICS_BY_GRADE[3];
@@ -68,7 +66,7 @@ export function App() {
     }
   }, [currentGrade]);
 
-  // Handle URL hash changes for level direct navigation and wiki modal
+  // Handle URL hash changes for level direct navigation and wiki page
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.replace('#', '');
@@ -77,7 +75,7 @@ export function App() {
         return;
       }
       if (hash === 'wiki' || hash === 'intro') {
-        setIsWikiOpen(true);
+        setCurrentView('wiki');
         return;
       }
 
@@ -121,12 +119,12 @@ export function App() {
   };
 
   const handleOpenWiki = () => {
-    sounds.playClick();
-    setIsWikiOpen(true);
+    setCurrentView('wiki');
+    window.location.hash = '#wiki';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackToMap = (targetTopicId) => {
-    sounds.playClick();
     setCurrentView('map');
     window.location.hash = '';
 
@@ -149,24 +147,23 @@ export function App() {
     handleBackToMap();
   };
 
-  // Grade-specific completed count
-  const gradeLevelIds = currentTopics.flatMap(t => t.levels.map(l => l.id));
-  const gradeCompletedCount = gradeLevelIds.filter(id => progress.completedLevels[id]).length;
-
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 flex flex-col selection:bg-amber-200">
       {/* Top Navigation Bar */}
       <Header
-        currentGrade={currentGrade}
+        currentGrade={currentView === 'wiki' ? 'wiki' : currentGrade}
         onSelectGrade={handleSelectGrade}
         onOpenGuide={() => setIsGuideOpen(true)}
         onOpenWiki={handleOpenWiki}
-        isWikiActive={isWikiOpen}
       />
 
       {/* Main Container */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-3.5 sm:px-6 pt-3.5 sm:pt-6 pb-20 sm:pb-12">
-        {currentView === 'map' ? (
+        {currentView === 'wiki' ? (
+          <OlympiadWikiView
+            onSelectGrade={handleSelectGrade}
+          />
+        ) : currentView === 'map' ? (
           <LevelMap
             grade={currentGrade}
             topics={currentTopics}
@@ -234,17 +231,7 @@ export function App() {
       <GuideModal
         isOpen={isGuideOpen}
         onClose={() => setIsGuideOpen(false)}
-        defaultGrade={currentGrade}
-      />
-
-      <OlympiadWikiModal
-        isOpen={isWikiOpen}
-        onClose={() => {
-          setIsWikiOpen(false);
-          if (window.location.hash === '#wiki' || window.location.hash === '#intro') {
-            window.location.hash = '';
-          }
-        }}
+        defaultGrade={typeof currentGrade === 'number' ? currentGrade : 3}
       />
 
       <SimModal

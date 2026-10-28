@@ -35,8 +35,20 @@ export function Header({
             </div>
           </div>
 
-          {/* Desktop Grade Selector */}
+          {/* Desktop Grade / Navigation Selector */}
           <div className="hidden sm:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner">
+            <button
+              onClick={onOpenWiki}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+                currentGrade === 'wiki'
+                  ? 'bg-amber-500 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+              }`}
+            >
+              <span>🏛️</span>
+              <span>奧數簡介</span>
+            </button>
+
             <button
               onClick={() => {
                 if (currentGrade !== 3) {
@@ -74,17 +86,6 @@ export function Header({
             <div className="hidden sm:flex items-center gap-1.5">
               <button
                 onClick={() => {
-                  onOpenWiki();
-                }}
-                title="奧數體系與領域指南"
-                className="px-2.5 py-1.5 rounded-lg text-xs font-bold text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200/70 transition-colors flex items-center gap-1.5 shadow-xs"
-              >
-                <span>🏛️</span>
-                <span>奧數簡介</span>
-              </button>
-
-              <button
-                onClick={() => {
                   onOpenGuide();
                 }}
                 title="重點方法整理"
@@ -96,22 +97,33 @@ export function Header({
           </div>
         </div>
 
-        {/* Mobile Grade Switcher (Row 2) */}
+        {/* Mobile Grade / Navigation Switcher (Row 2) */}
         <div className="mt-2 pt-2 border-t border-slate-100 sm:hidden">
-          <div className="grid grid-cols-2 gap-1.5 bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner">
+          <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner">
+            <button
+              onClick={onOpenWiki}
+              className={`py-1.5 px-1 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
+                currentGrade === 'wiki'
+                  ? 'bg-amber-500 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 active:scale-98'
+              }`}
+            >
+              <span>🏛️ 簡介</span>
+            </button>
+
             <button
               onClick={() => {
                 if (currentGrade !== 3) {
                   onSelectGrade(3);
                 }
               }}
-              className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
+              className={`py-1.5 px-1 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
                 currentGrade === 3
                   ? 'bg-amber-400 text-amber-950 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 active:scale-98'
               }`}
             >
-              <span>三年級 (基礎篇)</span>
+              <span>三年級</span>
             </button>
 
             <button
@@ -120,13 +132,13 @@ export function Header({
                   onSelectGrade(4);
                 }
               }}
-              className={`py-1.5 px-2 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
+              className={`py-1.5 px-1 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
                 currentGrade === 4
                   ? 'bg-indigo-600 text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 active:scale-98'
               }`}
             >
-              <span>四年級 (進階篇)</span>
+              <span>四年級</span>
             </button>
           </div>
         </div>
