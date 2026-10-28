@@ -26,13 +26,14 @@ export function ChallengeView({
   const [resultStatus, setResultStatus] = useState('idle'); // 'idle' | 'success' | 'error'
   const [showFullExplanation, setShowFullExplanation] = useState(false);
 
-  // 當題目切換時，重設作答狀態，不預先顯示答案與提示
+  // 當題目切換時，重設作答狀態，並平滑滾動到頁面最上方
   useEffect(() => {
     setSelectedOption('');
     setInputVal('');
     setRevealedHints(0);
     setResultStatus('idle');
     setShowFullExplanation(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [level?.id]);
 
   // Check answers
@@ -275,6 +276,7 @@ export function ChallengeView({
                     onClick={() => {
                       onCompleteLevel(level.id);
                       window.location.hash = `#${nextLevel.id}`;
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className={`w-full sm:w-auto px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold text-white shadow-sm flex items-center justify-center gap-1.5 transition-all active:scale-98 bg-gradient-to-r ${topic.color} shrink-0`}
                   >
@@ -349,6 +351,7 @@ export function ChallengeView({
                       sounds.playClick();
                       onCompleteLevel(level.id);
                       window.location.hash = `#${nextLevel.id}`;
+                      window.scrollTo({ top: 0, behavior: 'smooth' });
                     }}
                     className={`w-full sm:w-auto px-5 py-2.5 rounded-lg text-xs font-bold text-white shadow-xs flex items-center justify-center gap-1.5 transition-all active:scale-98 bg-gradient-to-r ${topic.color}`}
                   >
