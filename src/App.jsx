@@ -4,6 +4,7 @@ import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { LevelMap } from './components/LevelMap';
 import { ChallengeView } from './components/ChallengeView';
+import { Scratchpad } from './components/Scratchpad';
 import { BadgesModal } from './components/BadgesModal';
 import { GuideModal } from './components/GuideModal';
 import { SimModal } from './components/SimModal';
@@ -43,13 +44,14 @@ export function App() {
   });
 
   const [currentView, setCurrentView] = useState('map'); // 'map' | 'challenge'
+  const [homeTab, setHomeTab] = useState('map'); // 'map' | 'wiki'
   const [activeTopic, setActiveTopic] = useState(null);
   const [activeLevel, setActiveLevel] = useState(null);
 
   // Modals
+  const [isScratchpadOpen, setIsScratchpadOpen] = useState(false);
   const [isBadgesOpen, setIsBadgesOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
-  const [isWikiOpen, setIsWikiOpen] = useState(false);
   const [activeSimTopic, setActiveSimTopic] = useState(null);
 
   const currentTopics = TOPICS_BY_GRADE[currentGrade] || TOPICS_BY_GRADE[3];
@@ -72,16 +74,21 @@ export function App() {
     }
   }, [currentGrade]);
 
-  // Handle URL hash changes for level direct navigation
+  // Handle URL hash changes for level direct navigation and wiki tab
   useEffect(() => {
     const handleHash = () => {
       const hash = window.location.hash.replace('#', '');
-      if (!hash) {
+      if (!hash || hash === 'map') {
         setCurrentView('map');
+        setHomeTab('map');
+        return;
+      }
+      if (hash === 'wiki' || hash === 'intro') {
+        setCurrentView('map');
+        setHomeTab('wiki');
         return;
       }
 
-      // Check grade 3 and grade 4
       for (const gr of [3, 4]) {
         for (const t of TOPICS_BY_GRADE[gr]) {
           const found = t.levels.find(l => l.id === hash);
@@ -169,6 +176,16 @@ export function App() {
     }));
   };
 
+  const handleDrawAction = () => {
+    if (!progress.unlockedBadges['scratch-user']) {
+      setProgress(prev => ({
+        ...prev,
+        unlockedBadges: { ...prev.unlockedBadges, 'scratch-user': true },
+        newBadge: true
+      }));
+    }
+  };
+
   const handleSelectLevel = (topic, level) => {
     setActiveTopic(topic);
     setActiveLevel(level);
@@ -188,7 +205,7 @@ export function App() {
     handleBackToMap();
   };
 
-  // Grade-specific completed count for header badge
+  // Grade-specific completed count
   const gradeLevelIds = currentTopics.flatMap(t => t.levels.map(l => l.id));
   const gradeCompletedCount = gradeLevelIds.filter(id => progress.completedLevels[id]).length;
 
@@ -213,7 +230,7 @@ export function App() {
         onOpenWiki={() => setIsWikiOpen(true)}
       />
 
-      {/* Main Container - Optimized for portrait mobile screens */}
+      {/* Main Container */}
       <main className="flex-1 max-w-6xl w-full mx-auto px-3.5 sm:px-6 pt-3.5 sm:pt-6 pb-20 sm:pb-12">
         {currentView === 'map' ? (
           <LevelMap
@@ -230,51 +247,68 @@ export function App() {
             level={activeLevel}
             onBack={handleBackToMap}
             onCompleteLevel={handleCompleteLevel}
+            onOpenScratchpad={() => setIsScratchpadOpen(true)}
             isCompleted={!!progress.completedLevels[activeLevel?.id]}
           />
         )}
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-6 mb-14 sm:mb-0 text-center text-xs text-slate-400 font-bold">
+      <footer className="bg-white border-t border-slate-200 py-6 mb-14 sm:mb-0 text-center text-xs text-slate-400">
         <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span>🦉 小學奧數思維大冒險</span>
+            <span className="font-semibold text-slate-700">📐 奧數思維訓練</span>
             <span>·</span>
-            <span>三年級啟蒙 & 四年級進階</span>
+            <span>三年級基礎篇 & 四年級進階篇</span>
           </div>
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsWikiOpen(true)}
-              className="hover:text-amber-600 transition-colors font-black text-amber-700"
+              className="hover:text-slate-900 transition-colors font-semibold text-slate-700"
             >
-              🏛️ 奧數百科全書 (IMO)
+              🏛️ 奧數知識庫 (IMO)
             </button>
             <button
               onClick={() => setIsGuideOpen(true)}
-              className="hover:text-slate-600 transition-colors"
+              className="hover:text-slate-900 transition-colors"
             >
-              年級心法指南
+              思維方法指引
             </button>
             <button
               onClick={() => {
-                if (window.confirm("確定要重設冒險進度嗎？星數與金幣將歸零。")) {
+                if (window.confirm("確定要重設學習進度嗎？所有完成紀錄將歸零。")) {
                   localStorage.removeItem(STORAGE_KEY);
                   window.location.reload();
                 }
               }}
-              className="hover:text-rose-500 transition-colors"
+              className="hover:text-rose-600 transition-colors"
             >
-              重置冒險進度
+              重設學習進度
             </button>
           </div>
         </div>
       </footer>
 
+      {/* Desktop Floating Scratchpad Button */}
+      {currentView === 'map' && (
+        <button
+          onClick={() => {
+            sounds.playClick();
+            setIsScratchpadOpen(true);
+          }}
+          className="hidden sm:flex fixed bottom-6 right-6 z-30 p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl transition-all items-center gap-2 font-bold text-xs active:scale-95"
+          title="開啟草稿計算板"
+        >
+          <span className="text-base">✏️</span>
+          <span>草稿計算板</span>
+        </button>
+      )}
+
       {/* Mobile-only Bottom Navigation Bar */}
       <BottomNav
         currentView={currentView}
         onNavigateToMap={handleBackToMap}
+        onOpenScratchpad={() => setIsScratchpadOpen(true)}
         onOpenWiki={() => setIsWikiOpen(true)}
         onOpenGuide={() => setIsGuideOpen(true)}
         onOpenBadges={() => {
@@ -285,6 +319,12 @@ export function App() {
       />
 
       {/* Modals */}
+      <Scratchpad
+        isOpen={isScratchpadOpen}
+        onClose={() => setIsScratchpadOpen(false)}
+        onDrawAction={handleDrawAction}
+      />
+
       <BadgesModal
         isOpen={isBadgesOpen}
         onClose={() => setIsBadgesOpen(false)}

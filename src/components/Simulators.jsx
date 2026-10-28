@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, HelpCircle, ArrowRight, RefreshCw, Volume2 } from 'lucide-react';
 
-// 1. 雞兔同籠：吹哨抬腿模擬器
+// 1. 雞兔同籠：假設法驗證模型
 export function ChickenRabbitSim() {
   const [totalAnimals, setTotalAnimals] = useState(8);
   const [rabbits, setRabbits] = useState(3);
@@ -19,8 +19,8 @@ export function ChickenRabbitSim() {
     <div className="bg-emerald-50/80 border-2 border-emerald-300 rounded-2xl p-5 shadow-sm">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <span className="text-2xl">🪄</span>
-          <h4 className="font-bold text-emerald-900 text-lg">雞兔同籠：吹哨抬腿互動器</h4>
+          <span className="text-2xl">⚖️</span>
+          <h4 className="font-bold text-emerald-900 text-lg">雞兔同籠：假設法動態驗證模型</h4>
         </div>
         <button
           onClick={whistle}
@@ -30,12 +30,12 @@ export function ChickenRabbitSim() {
               : 'bg-emerald-600 hover:bg-emerald-700 text-white'
           }`}
         >
-          <span>{legsLifted === 2 ? '📯 嗶！放下一隻隻腳' : '📯 嗶！吹哨抬起 2 隻腳！'}</span>
+          <span>{legsLifted === 2 ? '🔄 恢復原本腳數' : '🚶 模擬每隻動物抬起 2 隻腳'}</span>
         </button>
       </div>
 
       <p className="text-xs text-emerald-700 mb-3">
-        當哨聲響起，每隻動物都抬起 2 隻腳！看看地上的腳發生了什麼神奇的變化？
+        當每隻動物均扣除 2 隻腳時，所有雞的腳數歸零，地面剩餘腳數全為兔子多出的腳數。
       </p>
 
       {/* Stats bar */}
@@ -49,13 +49,13 @@ export function ChickenRabbitSim() {
           <span className="font-extrabold text-base text-slate-800">{totalLegs} 隻</span>
         </div>
         <div>
-          <span className="text-slate-500 block">一共抬起了</span>
+          <span className="text-slate-500 block">每隻扣除 2 隻腳</span>
           <span className="font-extrabold text-base text-amber-600">
             {totalAnimals} × {legsLifted} = {totalAnimals * legsLifted} 隻
           </span>
         </div>
         <div>
-          <span className="text-slate-500 block">地上還剩下</span>
+          <span className="text-slate-500 block">地面剩餘腳數</span>
           <span className="font-extrabold text-base text-emerald-700">{currentLegsOnGround} 隻腳</span>
         </div>
       </div>
@@ -71,13 +71,13 @@ export function ChickenRabbitSim() {
             }`}
           >
             <span className="text-3xl">🐔</span>
-            <span className="text-xs font-bold text-slate-600 mt-1">小雞</span>
+            <span className="text-xs font-bold text-slate-600 mt-1">雞</span>
             <span
               className={`text-[11px] font-bold px-2 py-0.5 rounded-full mt-1 ${
                 legsLifted === 2 ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'
               }`}
             >
-              {legsLifted === 2 ? '坐在地上 (0腳)' : '2 隻腳'}
+              {legsLifted === 2 ? '0 隻腳著地' : '2 隻腳'}
             </span>
           </div>
         ))}
@@ -97,14 +97,14 @@ export function ChickenRabbitSim() {
                 legsLifted === 2 ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'
               }`}
             >
-              {legsLifted === 2 ? '剩 2 隻前腳!' : '4 隻腳'}
+              {legsLifted === 2 ? '剩 2 隻腳著地' : '4 隻腳'}
             </span>
           </div>
         ))}
       </div>
 
       <div className="bg-amber-50 p-3 rounded-xl border border-amber-200 text-xs sm:text-sm text-amber-900 leading-relaxed">
-        <strong>💡 吹哨原理秒懂：</strong> 吹哨後每隻動物少 2 隻腳，小雞腳全沒了（0腳），地上剩下的 <strong>{currentLegsOnGround}</strong> 隻腳全都是每隻兔子剩下的 2 隻腳！所以兔子隻數 = {currentLegsOnGround} ÷ 2 = <strong>{rabbits} 隻</strong>！
+        <strong>💡 假設法推導原理：</strong> 假設每隻動物都扣除 2 隻腳（以雞為基準），雞著地的腳數歸零，地面剩餘的 <strong>{currentLegsOnGround}</strong> 隻腳全為兔子多出的 2 隻腳。因此兔子數量 = {currentLegsOnGround} ÷ (4 - 2) = <strong>{rabbits} 隻</strong>。
       </div>
     </div>
   );
@@ -268,7 +268,7 @@ export function SegmentLineSim() {
     <div className="bg-blue-50/80 border-2 border-blue-300 rounded-2xl p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-3">
         <span className="text-2xl">📐</span>
-        <h4 className="font-bold text-blue-950 text-lg">和差倍問題：魔法線段圖動態教具</h4>
+        <h4 className="font-bold text-blue-950 text-lg">和差倍問題：線段基準量模型</h4>
       </div>
 
       <div className="flex gap-2 mb-4">
@@ -397,12 +397,12 @@ export function PerimeterSim() {
           onClick={() => setShifted(!shifted)}
           className="px-4 py-1.5 rounded-full font-bold bg-sky-600 hover:bg-sky-700 text-white text-xs shadow-md transition-all active:scale-95"
         >
-          {shifted ? '⏪ 復原階梯形狀' : '🪄 施展平移魔法！'}
+          {shifted ? '⏪ 復原階梯形狀' : '📐 邊界平移投影'}
         </button>
       </div>
 
       <p className="text-xs text-sky-800 mb-3">
-        點擊上方「平移魔法」按鈕，看看凹凸的台階如何向外推出，瞬間變成標準長方形！
+        點擊上方按鈕，觀察階梯上的橫向與縱向線段如何向外平移投影，轉化為標準長方形。
       </p>
 
       <div className="bg-white p-6 rounded-xl border border-sky-200 flex flex-col items-center justify-center min-h-[190px]">
@@ -481,7 +481,7 @@ export function PerimeterSim() {
   );
 }
 
-// 5. 巧算魔法島：湊整分解模擬器
+// 5. 速算與巧算：湊整補數模型
 export function QuickCalcSim() {
   const [val, setVal] = useState(298);
   const diff = 300 - val;
@@ -490,10 +490,10 @@ export function QuickCalcSim() {
     <div className="bg-amber-50/80 border-2 border-amber-300 rounded-2xl p-5 shadow-sm">
       <div className="flex items-center gap-2 mb-3">
         <span className="text-2xl">✨</span>
-        <h4 className="font-bold text-amber-950 text-lg">巧算魔法：湊整找好朋友</h4>
+        <h4 className="font-bold text-amber-950 text-lg">速算技巧：湊整補數模型</h4>
       </div>
       <p className="text-xs text-amber-800 mb-4">
-        滑動選擇一個接近整百的數，看看魔法精靈如何將它看作 (整百 - 差數)：
+        滑動選擇接近整百的數值，觀察如何轉化為 (整百 - 補數) 形式簡化計算：
       </p>
 
       <div className="bg-white p-4 rounded-xl border border-amber-200 mb-4">

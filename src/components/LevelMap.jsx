@@ -18,13 +18,13 @@ import {
   ShieldCheck,
   GitBranch,
   Grid,
-  Wand2
+  CheckCircle2
 } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 const ICON_MAP = {
   Sparkles,
-  PawPrint: Wand2,
+  PawPrint: Scale,
   Trees,
   Scale,
   Hourglass,
@@ -48,64 +48,61 @@ export function LevelMap({
   onOpenSim,
   onOpenWiki
 }) {
-  // Calculate grade-specific stars
+  // Calculate grade-specific completed questions
   const gradeLevelIds = topics.flatMap(t => t.levels.map(l => l.id));
   const completedCountForGrade = gradeLevelIds.filter(id => userProgress.completedLevels?.[id]).length;
   const progressPercent = Math.round((completedCountForGrade / 21) * 100);
 
-  // Title level based on current grade progress
-  let rankTitle = grade === 4 ? "四年級先鋒 🚀" : "奧數初級見習 🎒";
-  if (completedCountForGrade >= 18) rankTitle = "👑 IMO 少年傳奇大師";
-  else if (completedCountForGrade >= 12) rankTitle = "🏆 鑽石奧數神探";
-  else if (completedCountForGrade >= 6) rankTitle = "🌟 黃金思維領航員";
-  else if (completedCountForGrade >= 1) rankTitle = "🚀 探索進階學徒";
+  // Learning stage
+  let stageLabel = "基礎學習階段";
+  if (completedCountForGrade >= 18) stageLabel = "精熟級 (Mastery)";
+  else if (completedCountForGrade >= 12) stageLabel = "進階級 (Advanced)";
+  else if (completedCountForGrade >= 6) stageLabel = "熟練級 (Proficient)";
+  else if (completedCountForGrade >= 1) stageLabel = "實踐級 (Practice)";
 
   const bannerGradient = grade === 4
-    ? "from-indigo-600 via-purple-600 to-pink-600"
-    : "from-amber-500 via-orange-500 to-rose-500";
+    ? "from-slate-800 via-indigo-900 to-slate-900"
+    : "from-slate-800 via-amber-950 to-slate-900";
 
   return (
-    <div className="space-y-5 sm:space-y-8 pb-12 sm:pb-16">
-      {/* Hero Banner - Optimized for Vertical Mobile */}
-      <div className={`relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r ${bannerGradient} p-4 sm:p-8 text-white shadow-lg sm:shadow-xl transition-all`}>
-        {/* Subtle background graphic */}
-        <div className="absolute -right-4 -bottom-6 opacity-15 sm:opacity-20 text-7xl sm:text-9xl select-none pointer-events-none">
-          {grade === 4 ? "🛸" : "🏰"}
-        </div>
-
+    <div className="space-y-5 sm:space-y-7 pb-12 sm:pb-16">
+      {/* Hero Banner */}
+      <div className={`relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-r ${bannerGradient} p-4 sm:p-7 text-white shadow-md border border-slate-700/60 transition-all`}>
         <div className="relative z-10">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-[11px] sm:text-xs font-bold mb-2 border border-white/20">
-            <span>✨ 智慧冒險之旅</span>
+          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-white/10 text-[11px] sm:text-xs font-semibold mb-2 text-slate-200 border border-white/10">
+            <span>奧數思維體系</span>
             <span>·</span>
-            <span>{grade === 4 ? "四年級高階思維架構" : "三年級奧數啟蒙體系"}</span>
+            <span>{grade === 4 ? "四年級進階專題" : "三年級基礎專題"}</span>
           </div>
 
-          <h1 className="text-xl sm:text-3xl md:text-4xl font-black tracking-tight mb-1.5 leading-snug">
-            {grade === 4 ? "四年級高階奧數：模型化思維躍遷！" : "探索三年級七大島嶼，破解思維謎題！"}
-          </h1>
-          <p className="text-white/90 text-xs sm:text-base leading-relaxed mb-4 max-w-2xl font-medium line-clamp-2 sm:line-clamp-none">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-1.5 leading-snug text-white">
             {grade === 4
-              ? "全面涵蓋行程問題、抽屜原理、流水行船、等積變形與數論初步，以模型思維破解幾何與代數難題！"
-              : "告別死記硬背！透過動態教具、線段圖、抬腳法與週期規律，把抽象奧數變身生動有趣的解謎遊戲。"}
+              ? "四年級進階專題：建立抽象模型與結構化分析思維"
+              : "三年級核心專題：奠定邏輯推理與具象建模基礎"}
+          </h1>
+          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 max-w-2xl font-normal">
+            {grade === 4
+              ? "涵蓋行程問題、抽屜原理、等積變形、流水行船與數論初步，掌握運動、幾何與整除的不變量分析方法。"
+              : "涵蓋速算巧算、雞兔同籠、植樹間隔與和差倍等經典專題，透過具象教具與線段圖，建立條理分明的思考習慣。"}
           </p>
 
           {/* Progress overview */}
-          <div className="bg-white/15 backdrop-blur-md rounded-xl sm:rounded-2xl p-3 sm:p-4 border border-white/20 max-w-lg">
-            <div className="flex justify-between items-center text-xs font-bold mb-1.5">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-3.5 border border-white/10 max-w-lg">
+            <div className="flex justify-between items-center text-xs mb-1.5">
               <span className="flex items-center gap-1.5">
-                <span className="text-[11px] opacity-90">稱號：</span>
-                <span className="bg-amber-300 text-amber-950 px-2 py-0.5 rounded-full text-[11px] font-black shadow-xs truncate max-w-[130px] sm:max-w-none">
-                  {rankTitle}
+                <span className="text-slate-300 text-[11px]">學習程度：</span>
+                <span className="bg-amber-400 text-slate-950 px-2 py-0.5 rounded text-[11px] font-bold">
+                  {stageLabel}
                 </span>
               </span>
-              <span className="text-[11px] sm:text-xs text-amber-100">
-                {completedCountForGrade} / 21 星 ({progressPercent}%)
+              <span className="text-[11px] sm:text-xs text-slate-200 font-medium">
+                進度：{completedCountForGrade} / 21 題 ({progressPercent}%)
               </span>
             </div>
 
-            <div className="w-full h-2.5 sm:h-3 bg-black/25 rounded-full overflow-hidden p-0.5">
+            <div className="w-full h-2 bg-slate-950/60 rounded-full overflow-hidden p-0.5">
               <div
-                className="h-full bg-amber-300 rounded-full transition-all duration-700 ease-out shadow-sm"
+                className="h-full bg-amber-400 rounded-full transition-all duration-700 ease-out"
                 style={{ width: `${Math.max(4, progressPercent)}%` }}
               />
             </div>
@@ -113,21 +110,21 @@ export function LevelMap({
         </div>
       </div>
 
-      {/* Island Grid */}
+      {/* Topics Section */}
       <div className="space-y-3 sm:space-y-4">
         <div className="flex items-center justify-between px-1">
           <div>
-            <h2 className="text-lg sm:text-2xl font-black text-slate-800 flex items-center gap-1.5 sm:gap-2">
-              <span>{grade === 4 ? "🚀 四年級七大進階主題" : "🗺️ 三年級七大島嶼關卡"}</span>
+            <h2 className="text-base sm:text-xl font-bold text-slate-900 flex items-center gap-1.5">
+              <span>{grade === 4 ? "四年級 7 大進階專題" : "三年級 7 大基礎專題"}</span>
             </h2>
-            <p className="text-[11px] sm:text-sm text-slate-500 font-bold">
-              共 7 個主題島嶼，每島 3 個遞進關卡與專屬具象教具
+            <p className="text-xs text-slate-500">
+              共 7 個專題單元，每個單元包含 3 道循序漸進的題型與互動教學模型
             </p>
           </div>
         </div>
 
-        {/* Vertical stream on mobile, 2-col on tablet, 3-col on desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {/* Topic Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5">
           {topics.map((topic, topicIdx) => {
             const IconComponent = ICON_MAP[topic.icon] || Sparkles;
             const completedCount = topic.levels.filter(
@@ -138,56 +135,55 @@ export function LevelMap({
             return (
               <div
                 key={topic.id}
-                className={`bg-white rounded-2xl sm:rounded-3xl border-2 ${topic.borderColor} shadow-sm sm:shadow-md hover:shadow-xl transition-all duration-300 flex flex-col overflow-hidden group`}
+                className="bg-white rounded-xl sm:rounded-2xl border border-slate-200 shadow-xs hover:shadow-md transition-all duration-200 flex flex-col overflow-hidden"
               >
-                {/* Island Header */}
-                <div className={`p-4 sm:p-5 bg-gradient-to-br ${topic.color} text-white relative`}>
+                {/* Topic Header */}
+                <div className={`p-4 bg-gradient-to-br ${topic.color} text-white`}>
                   <div className="flex justify-between items-start mb-1.5">
-                    <span className="inline-block px-2 py-0.5 rounded-full bg-white/25 backdrop-blur-sm text-[10px] sm:text-[11px] font-black tracking-wider">
-                      島嶼 {topicIdx + 1} · {topic.tag}
+                    <span className="inline-block px-2 py-0.5 rounded bg-black/20 text-[11px] font-medium tracking-wide">
+                      專題 {topicIdx + 1} · {topic.tag}
                     </span>
-                    <div className="flex items-center gap-1 bg-black/20 px-2 py-0.5 rounded-full text-xs font-bold">
+                    <div className="flex items-center gap-1 bg-black/20 px-2 py-0.5 rounded text-xs font-semibold">
                       <Star className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
-                      <span>{completedCount} / 3</span>
+                      <span>{completedCount} / 3 題</span>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-3">
-                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-inner group-hover:scale-105 transition-transform shrink-0">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white/20 flex items-center justify-center text-white shrink-0">
                       <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="font-black text-lg sm:text-xl text-white tracking-tight truncate">
+                      <h3 className="font-bold text-base sm:text-lg text-white tracking-tight truncate">
                         {topic.title}
                       </h3>
-                      <p className="text-xs text-white/90 font-medium truncate">{topic.subtitle}</p>
+                      <p className="text-xs text-white/90 truncate">{topic.subtitle}</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Island Content */}
-                <div className="p-3.5 sm:p-5 flex-1 flex flex-col justify-between space-y-3 sm:space-y-4">
+                {/* Topic Body */}
+                <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between space-y-3">
                   <div>
-                    <p className="text-xs text-slate-600 leading-relaxed font-medium mb-2.5 line-clamp-2">
+                    <p className="text-xs text-slate-600 leading-relaxed mb-2.5 line-clamp-2">
                       {topic.story}
                     </p>
 
-                    {/* Mantra Pill */}
-                    <div className="p-2 sm:p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-700 leading-relaxed font-bold flex items-start gap-1.5">
-                      <span className="text-amber-500 font-extrabold shrink-0">💡 心法：</span>
+                    {/* Mantra / Core Concept */}
+                    <div className="p-2 sm:p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed flex items-start gap-1.5">
+                      <span className="text-amber-700 font-bold shrink-0">📌 核心方法：</span>
                       <span className="line-clamp-2">{topic.secretMantra}</span>
                     </div>
                   </div>
 
-                  {/* Level Badges */}
+                  {/* Level Questions List */}
                   <div className="space-y-1.5">
-                    <div className="text-[10px] sm:text-[11px] font-extrabold text-slate-400 uppercase tracking-wider">
-                      關卡挑戰進度
+                    <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                      單元題目
                     </div>
-                    <div className="space-y-1.5">
+                    <div className="space-y-1">
                       {topic.levels.map((level, lvlIdx) => {
                         const isDone = !!userProgress.completedLevels?.[level.id];
-                        // Auto-unlock first level or previous level completed
                         const isUnlocked =
                           lvlIdx === 0 ||
                           !!userProgress.completedLevels?.[topic.levels[lvlIdx - 1].id];
@@ -200,17 +196,17 @@ export function LevelMap({
                               sounds.playClick();
                               onSelectLevel(topic, level);
                             }}
-                            className={`w-full text-left p-2.5 sm:p-2.5 rounded-xl text-xs font-bold flex items-center justify-between transition-all min-h-[44px] active:scale-[0.99] ${
+                            className={`w-full text-left p-2.5 rounded-lg text-xs font-medium flex items-center justify-between transition-all min-h-[42px] ${
                               isDone
-                                ? 'bg-amber-50/90 border border-amber-200 text-amber-950 hover:bg-amber-100'
+                                ? 'bg-amber-50/70 border border-amber-200 text-amber-950 hover:bg-amber-100/60'
                                 : isUnlocked
-                                ? 'bg-slate-50 border border-slate-200 text-slate-800 hover:border-amber-400 hover:bg-amber-50/50'
-                                : 'bg-slate-100/60 border border-slate-200/50 text-slate-400 cursor-not-allowed opacity-60'
+                                ? 'bg-slate-50 border border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-100/70'
+                                : 'bg-slate-50/50 border border-slate-200/50 text-slate-400 cursor-not-allowed opacity-60'
                             }`}
                           >
                             <div className="flex items-center gap-2 min-w-0">
                               <span
-                                className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 ${
+                                className={`w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold shrink-0 ${
                                   isDone
                                     ? 'bg-amber-400 text-amber-950'
                                     : isUnlocked
@@ -225,7 +221,7 @@ export function LevelMap({
 
                             <div className="flex items-center gap-1.5 shrink-0 ml-2">
                               {isDone ? (
-                                <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+                                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                               ) : isUnlocked ? (
                                 <Play className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
                               ) : (
@@ -245,9 +241,9 @@ export function LevelMap({
                         sounds.playClick();
                         onOpenSim(topic);
                       }}
-                      className="py-2 px-2.5 rounded-xl text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 active:scale-95 transition-all flex items-center justify-center gap-1"
+                      className="py-2 px-2.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors flex items-center justify-center gap-1"
                     >
-                      <span>🧮 專屬教具</span>
+                      <span>🧮 互動教具</span>
                     </button>
 
                     <button
@@ -258,9 +254,9 @@ export function LevelMap({
                           topic.levels[0];
                         onSelectLevel(topic, nextLevel);
                       }}
-                      className={`py-2 px-3 rounded-xl text-xs font-black flex items-center justify-center gap-1 text-white shadow-sm transition-all active:scale-95 bg-gradient-to-r ${topic.color}`}
+                      className={`py-2 px-3 rounded-lg text-xs font-semibold flex items-center justify-center gap-1 text-white shadow-xs transition-all active:scale-98 bg-gradient-to-r ${topic.color}`}
                     >
-                      <span>{isTopicCompleted ? '複習挑戰' : '開始闖關'}</span>
+                      <span>{isTopicCompleted ? '複習題目' : '開始練習'}</span>
                       <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   </div>
@@ -271,21 +267,21 @@ export function LevelMap({
         </div>
       </div>
 
-      {/* IMO Encyclopedia Feature Card */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl sm:rounded-3xl p-4 sm:p-8 text-white shadow-lg sm:shadow-xl border border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
-        <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto">
-          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-3xl sm:text-4xl shrink-0">
+      {/* IMO Knowledge Base Card */}
+      <div className="bg-slate-900 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-white border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-2xl shrink-0">
             🏛️
           </div>
           <div>
-            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[10px] sm:text-[11px] font-black uppercase tracking-wider mb-1 border border-amber-400/30">
-              全球殿堂知識
+            <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-white/10 text-slate-300 text-[10px] font-semibold uppercase tracking-wider mb-0.5">
+              全球學術競賽架構
             </div>
-            <h3 className="text-base sm:text-xl font-black text-white">
-              什麼是奧林匹亞數學 (IMO)？
+            <h3 className="text-base sm:text-lg font-bold text-white">
+              奧林匹亞數學 (IMO) 知識庫
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-xl mt-0.5 leading-relaxed line-clamp-2 sm:line-clamp-none">
-              起源自 1959 年東歐，探索代數、數論、幾何與組合四大支柱，以及陶哲軒等世界頂尖數學家的奧數啟蒙之路。
+            <p className="text-xs text-slate-400 max-w-xl mt-0.5 leading-relaxed">
+              探索奧數歷史、四大核心領域（代數、數論、幾何、組合）與國際選拔訓練體系。
             </p>
           </div>
         </div>
@@ -295,9 +291,9 @@ export function LevelMap({
             sounds.playClick();
             if (onOpenWiki) onOpenWiki();
           }}
-          className="w-full sm:w-auto px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-black text-xs sm:text-sm shadow-md transition-all shrink-0 flex items-center justify-center gap-2 active:scale-95"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs sm:text-sm transition-all shrink-0 flex items-center justify-center gap-1.5 active:scale-98"
         >
-          <span>閱讀奧數百科全書</span>
+          <span>查看「奧數簡介」專區</span>
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
