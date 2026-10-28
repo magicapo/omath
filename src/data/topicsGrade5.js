@@ -13,7 +13,7 @@ export const GRADE_5_TOPICS = [
     accentColor: "text-teal-700",
     story: "小學高年級進入分數時代。裂項相消法是奧數極為經典的代數思想，將複雜的分數連加轉化為中間項相互抵消的簡潔形式。",
     secretMantra: "裂項基本型：1/(n×(n+1)) = 1/n - 1/(n+1)。中間項正負抵消，只留首尾兩項。",
-    simType: "quick-calc-sim",
+    simType: "fraction-calc-sim",
     levels: [
       {
         id: "g5-fc-1",

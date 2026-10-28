@@ -1083,6 +1083,905 @@ export function BoatCurrentSim() {
   );
 }
 
+// 13. 分數巧算與裂項相消模型 (五年級)
+export function FractionCalcSim() {
+  const [terms, setTerms] = useState(4); // 2 to 6
+  // 1/(1*2) + 1/(2*3) + ... + 1/(n*(n+1)) = n/(n+1)
+  const resultNum = terms;
+  const resultDenom = terms + 1;
+
+  return (
+    <div className="bg-teal-50/80 border-2 border-teal-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">✨</span>
+        <h4 className="font-bold text-teal-950 text-lg">分數裂項相消：母積子差動態模型</h4>
+      </div>
+      <p className="text-xs text-teal-800">
+        公式核心：<code className="bg-teal-100 px-1.5 py-0.5 rounded font-mono font-bold">1 / [n × (n+1)] = 1/n - 1/(n+1)</code>。觀察項數增加時，中間相鄰相反數如何完全抵消：
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-teal-200 space-y-3">
+        <div className="flex justify-between items-center">
+          <span className="text-xs font-bold text-slate-600">累加項數 (n)：</span>
+          <span className="text-xl font-black text-teal-700">{terms} 項</span>
+        </div>
+        <input
+          type="range"
+          min="2"
+          max="6"
+          value={terms}
+          onChange={e => setTerms(Number(e.target.value))}
+          className="w-full accent-teal-600 cursor-pointer"
+        />
+
+        {/* Original Series */}
+        <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs">
+          <span className="text-slate-500 font-bold block mb-1">原題連續相加：</span>
+          <div className="flex flex-wrap items-center gap-1 font-mono font-semibold text-slate-800">
+            {Array.from({ length: terms }).map((_, i) => (
+              <span key={i} className="flex items-center">
+                <span>1/({i + 1}×{i + 2})</span>
+                {i < terms - 1 && <span className="text-slate-400 mx-1">+</span>}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Split and Cancel Visual */}
+        <div className="p-3 bg-teal-100/60 rounded-xl border border-teal-200 text-xs space-y-2">
+          <span className="text-teal-900 font-bold block">裂項展開後正負對消：</span>
+          <div className="flex flex-wrap items-center gap-1 font-mono text-[11px] leading-relaxed">
+            <span className="px-1.5 py-0.5 rounded bg-teal-600 text-white font-bold">1/1</span>
+            {Array.from({ length: terms - 1 }).map((_, i) => (
+              <span key={i} className="flex items-center">
+                <span className="line-through text-rose-500 bg-rose-50 px-1 rounded">- 1/{i + 2}</span>
+                <span className="line-through text-emerald-600 bg-emerald-50 px-1 rounded ml-1">+ 1/{i + 2}</span>
+              </span>
+            ))}
+            <span className="px-1.5 py-0.5 rounded bg-rose-600 text-white font-bold ml-1">- 1/{terms + 1}</span>
+          </div>
+          <div className="text-[11px] text-slate-600 pt-1 border-t border-teal-200">
+            中間所有中介分數全數抵消，僅存首項 <strong className="text-teal-800">1</strong> 與末項 <strong className="text-rose-700">1/{terms + 1}</strong>！
+          </div>
+        </div>
+
+        <div className="text-center p-2.5 bg-emerald-50 rounded-xl border border-emerald-200 font-bold text-sm text-emerald-950">
+          最終簡化結果：1 - 1/{terms + 1} = <span className="text-lg text-emerald-700">{resultNum}/{resultDenom}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 14. 梯形蝴蝶定理模型 (五年級幾何)
+export function GeometryButterflySim() {
+  const [topBase, setTopBase] = useState(2); // 上底 a
+  const [bottomBase, setBottomBase] = useState(4); // 下底 b
+  // 梯形對角線分成 S1(上), S2(左), S3(右), S4(下)
+  // S1 : S2 = a : b, S2 = S3 = sqrt(S1*S4) = a*b, S1 = a^2, S4 = b^2
+  const sTop = topBase * topBase;
+  const sBottom = bottomBase * bottomBase;
+  const sLeft = topBase * bottomBase;
+  const sRight = sLeft;
+  const sTotal = sTop + sBottom + sLeft + sRight;
+
+  return (
+    <div className="bg-amber-50/80 border-2 border-amber-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">🦋</span>
+        <h4 className="font-bold text-amber-950 text-lg">梯形蝴蝶定理：面積不變量模型</h4>
+      </div>
+      <p className="text-xs text-amber-800">
+        梯形兩條對角線將其分割成四個三角形。<strong>兩側翅膀面積恆等（S左 = S右）</strong>，且上下底比決定四區比例：
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-amber-200 space-y-3">
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <div className="flex justify-between text-xs font-bold text-slate-600 mb-1">
+              <span>上底長度：</span>
+              <span className="text-amber-700">{topBase}</span>
+            </div>
+            <input
+              type="range"
+              min="1"
+              max="5"
+              value={topBase}
+              onChange={e => setTopBase(Number(e.target.value))}
+              className="w-full accent-amber-500 cursor-pointer"
+            />
+          </div>
+          <div>
+            <div className="flex justify-between text-xs font-bold text-slate-600 mb-1">
+              <span>下底長度：</span>
+              <span className="text-amber-700">{bottomBase}</span>
+            </div>
+            <input
+              type="range"
+              min="2"
+              max="6"
+              value={bottomBase}
+              onChange={e => setBottomBase(Number(e.target.value))}
+              className="w-full accent-amber-500 cursor-pointer"
+            />
+          </div>
+        </div>
+
+        {/* Visual Trapezoid Representation */}
+        <div className="relative h-44 bg-slate-100 rounded-xl p-3 flex flex-col justify-between items-center border border-slate-200 overflow-hidden">
+          <div className="text-[11px] font-bold text-slate-500">上底 a = {topBase}</div>
+          <div className="grid grid-cols-3 gap-2 w-full max-w-xs text-center items-center my-auto">
+            <div className="p-2 rounded-lg bg-orange-100 border border-orange-300">
+              <span className="text-[10px] text-orange-700 block font-semibold">左翅 (S左)</span>
+              <span className="text-sm font-black text-orange-900">{sLeft}</span>
+            </div>
+            <div className="space-y-1">
+              <div className="p-1 rounded bg-amber-100 border border-amber-300">
+                <span className="text-[9px] text-amber-700 block font-semibold">上部 (S1)</span>
+                <span className="text-xs font-bold text-amber-900">{sTop}</span>
+              </div>
+              <div className="p-1 rounded bg-indigo-100 border border-indigo-300">
+                <span className="text-[9px] text-indigo-700 block font-semibold">下部 (S2)</span>
+                <span className="text-xs font-bold text-indigo-900">{sBottom}</span>
+              </div>
+            </div>
+            <div className="p-2 rounded-lg bg-orange-100 border border-orange-300">
+              <span className="text-[10px] text-orange-700 block font-semibold">右翅 (S右)</span>
+              <span className="text-sm font-black text-orange-900">{sRight}</span>
+            </div>
+          </div>
+          <div className="text-[11px] font-bold text-slate-500">下底 b = {bottomBase}</div>
+        </div>
+
+        <div className="bg-amber-100/70 p-3 rounded-xl border border-amber-200 text-xs text-amber-950 space-y-1">
+          <div>• <strong>對稱翅膀相等律：</strong> S左 ({sLeft}) 恆等於 S右 ({sRight})！</div>
+          <div>• <strong>比例平方律：</strong> S上 : S下 = {topBase}² : {bottomBase}² = {sTop} : {sBottom}</div>
+          <div>• <strong>乘積交叉律：</strong> S左 × S右 = {sLeft * sRight} = S上 × S下 ({sTop * sBottom})！</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 15. 整除與韓信點兵同餘模型 (五年級數論)
+export function DivisibilityCongruenceSim() {
+  const [val, setVal] = useState(23);
+  const r3 = val % 3;
+  const r5 = val % 5;
+  const r7 = val % 7;
+
+  return (
+    <div className="bg-indigo-50/80 border-2 border-indigo-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">🔢</span>
+        <h4 className="font-bold text-indigo-950 text-lg">韓信點兵：同餘與除法餘數探測儀</h4>
+      </div>
+      <p className="text-xs text-indigo-800">
+        同餘問題核心：「三人同行七十稀，五樹梅花廿一枝，七子團圓正半月，除百零五便得知」。
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-indigo-200 space-y-3">
+        <div className="flex justify-between items-center">
+          <span className="text-xs font-bold text-slate-600">測試士兵人數 (N)：</span>
+          <span className="text-2xl font-black text-indigo-600">{val} 人</span>
+        </div>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          value={val}
+          onChange={e => setVal(Number(e.target.value))}
+          className="w-full accent-indigo-600 cursor-pointer"
+        />
+
+        <div className="grid grid-cols-3 gap-2.5 text-center text-xs">
+          <div className="p-2.5 rounded-xl bg-indigo-100/60 border border-indigo-200">
+            <span className="text-[11px] text-slate-500 block">3 人一列</span>
+            <span className="text-lg font-black text-indigo-800">餘 {r3}</span>
+            <span className="text-[10px] text-slate-400 block mt-0.5">{val} mod 3</span>
+          </div>
+          <div className="p-2.5 rounded-xl bg-purple-100/60 border border-purple-200">
+            <span className="text-[11px] text-slate-500 block">5 人一列</span>
+            <span className="text-lg font-black text-purple-800">餘 {r5}</span>
+            <span className="text-[10px] text-slate-400 block mt-0.5">{val} mod 5</span>
+          </div>
+          <div className="p-2.5 rounded-xl bg-blue-100/60 border border-blue-200">
+            <span className="text-[11px] text-slate-500 block">7 人一列</span>
+            <span className="text-lg font-black text-blue-800">餘 {r7}</span>
+            <span className="text-[10px] text-slate-400 block mt-0.5">{val} mod 7</span>
+          </div>
+        </div>
+
+        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs text-slate-700 leading-relaxed font-mono">
+          中國剩餘定理快速驗算：<br />
+          (70 × {r3} + 21 × {r5} + 15 × {r7}) mod 105 = {((70 * r3 + 21 * r5 + 15 * r7) % 105)} = <strong>{val % 105}</strong>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 16. 工程問題合作效率模型 (五年級)
+export function EngineeringSim() {
+  const [daysA, setDaysA] = useState(10);
+  const [daysB, setDaysB] = useState(15);
+  // 合作天數 = 1 / (1/daysA + 1/daysB) = (daysA * daysB) / (daysA + daysB)
+  const togetherDays = ((daysA * daysB) / (daysA + daysB)).toFixed(1);
+
+  return (
+    <div className="bg-amber-50/80 border-2 border-amber-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">🏗️</span>
+        <h4 className="font-bold text-amber-950 text-lg">工程問題：工作總量與效率疊加</h4>
+      </div>
+      <p className="text-xs text-amber-800">
+        將總工程量虛設為「1」。<strong>甲效率 = 1/天數A，乙效率 = 1/天數B</strong>。合作效率相加，工期大幅縮短：
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-amber-200 space-y-3">
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <div className="flex justify-between text-xs font-bold text-slate-600 mb-1">
+              <span>甲單獨完成：</span>
+              <span className="text-amber-700">{daysA} 天</span>
+            </div>
+            <input
+              type="range"
+              min="5"
+              max="20"
+              value={daysA}
+              onChange={e => setDaysA(Number(e.target.value))}
+              className="w-full accent-amber-500 cursor-pointer"
+            />
+            <span className="text-[11px] text-slate-500 block mt-1">甲效率 = 1/{daysA} /天</span>
+          </div>
+          <div>
+            <div className="flex justify-between text-xs font-bold text-slate-600 mb-1">
+              <span>乙單獨完成：</span>
+              <span className="text-amber-700">{daysB} 天</span>
+            </div>
+            <input
+              type="range"
+              min="5"
+              max="20"
+              value={daysB}
+              onChange={e => setDaysB(Number(e.target.value))}
+              className="w-full accent-amber-500 cursor-pointer"
+            />
+            <span className="text-[11px] text-slate-500 block mt-1">乙效率 = 1/{daysB} /天</span>
+          </div>
+        </div>
+
+        <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-center">
+          <span className="text-xs text-emerald-800 block font-semibold">甲乙兩人合作總工期：</span>
+          <span className="text-2xl font-black text-emerald-700">{togetherDays} 天</span>
+          <span className="text-[11px] text-emerald-600 block mt-0.5">
+            合作效率 = 1/{daysA} + 1/{daysB} = {((1/daysA + 1/daysB)).toFixed(3)}
+          </span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 17. 時鐘夾角與角速度追及模型 (五年級)
+export function ClockAngleSim() {
+  const [hour, setHour] = useState(3);
+  const [minute, setMinute] = useState(0);
+
+  // 分針速度: 6度/分, 時針速度: 0.5度/分, 速度差: 5.5度/分
+  const minuteAngle = minute * 6;
+  const hourAngle = (hour % 12) * 30 + minute * 0.5;
+  let diffAngle = Math.abs(hourAngle - minuteAngle);
+  if (diffAngle > 180) diffAngle = 360 - diffAngle;
+
+  return (
+    <div className="bg-sky-50/80 border-2 border-sky-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">⏰</span>
+        <h4 className="font-bold text-sky-950 text-lg">時鐘問題：角速度追及與夾角儀</h4>
+      </div>
+      <p className="text-xs text-sky-800">
+        時鐘本質是封閉環形追及問題：<strong>分針每分轉 6°，時針每分轉 0.5°，分針相對時針速度差為 5.5°/分</strong>。
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-sky-200 space-y-3">
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <div className="flex justify-between text-xs font-bold text-slate-600 mb-1">
+              <span>小時 (點)：</span>
+              <span className="text-sky-700">{hour} 點</span>
+            </div>
+            <input
+              type="range"
+              min="1"
+              max="12"
+              value={hour}
+              onChange={e => setHour(Number(e.target.value))}
+              className="w-full accent-sky-500 cursor-pointer"
+            />
+          </div>
+          <div>
+            <div className="flex justify-between text-xs font-bold text-slate-600 mb-1">
+              <span>分鐘 (分)：</span>
+              <span className="text-sky-700">{minute} 分</span>
+            </div>
+            <input
+              type="range"
+              min="0"
+              max="59"
+              value={minute}
+              onChange={e => setMinute(Number(e.target.value))}
+              className="w-full accent-sky-500 cursor-pointer"
+            />
+          </div>
+        </div>
+
+        {/* Clock Angles Display */}
+        <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-center">
+          <div>
+            <span className="text-[10px] text-slate-500 block">時針角度</span>
+            <span className="text-base font-bold text-slate-800">{hourAngle.toFixed(1)}°</span>
+          </div>
+          <div className="p-2 rounded-lg bg-sky-100 border border-sky-300">
+            <span className="text-[11px] text-sky-800 block font-bold">兩針夾角</span>
+            <span className="text-2xl font-black text-sky-700">{diffAngle.toFixed(1)}°</span>
+          </div>
+          <div>
+            <span className="text-[10px] text-slate-500 block">分針角度</span>
+            <span className="text-base font-bold text-slate-800">{minuteAngle}°</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 18. 文氏圖容斥原理模型 (五年級)
+export function VennSim() {
+  const [total, setTotal] = useState(40);
+  const [inA, setInA] = useState(25); // 喜歡語文
+  const [inB, setInB] = useState(20); // 喜歡數學
+  const [inBoth, setInBoth] = useState(12); // 都喜歡
+
+  const union = inA + inB - inBoth; // 至少喜歡一科
+  const neither = Math.max(0, total - union);
+
+  return (
+    <div className="bg-emerald-50/80 border-2 border-emerald-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">⭕</span>
+        <h4 className="font-bold text-emerald-950 text-lg">容斥原理：文氏圖交集重疊模型</h4>
+      </div>
+      <p className="text-xs text-emerald-800">
+        容斥原理核心：<strong>兩者之和減去重疊交集</strong>。公式：<code className="bg-emerald-100 px-1 font-mono font-bold">|A ∪ B| = |A| + |B| - |A ∩ B|</code>。
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-emerald-200 space-y-3">
+        <div className="grid grid-cols-3 gap-2 text-xs">
+          <div>
+            <span className="font-bold text-slate-600 block mb-1">集合 A (語文): {inA}</span>
+            <input
+              type="range"
+              min="15"
+              max="35"
+              value={inA}
+              onChange={e => setInA(Number(e.target.value))}
+              className="w-full accent-emerald-600 cursor-pointer"
+            />
+          </div>
+          <div>
+            <span className="font-bold text-slate-600 block mb-1">集合 B (數學): {inB}</span>
+            <input
+              type="range"
+              min="15"
+              max="35"
+              value={inB}
+              onChange={e => setInB(Number(e.target.value))}
+              className="w-full accent-emerald-600 cursor-pointer"
+            />
+          </div>
+          <div>
+            <span className="font-bold text-slate-600 block mb-1">重疊交集: {inBoth}</span>
+            <input
+              type="range"
+              min="5"
+              max={Math.min(inA, inB)}
+              value={inBoth}
+              onChange={e => setInBoth(Number(e.target.value))}
+              className="w-full accent-emerald-600 cursor-pointer"
+            />
+          </div>
+        </div>
+
+        {/* Venn representation */}
+        <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-center items-center gap-4 text-center">
+          <div className="p-3 rounded-full bg-emerald-100 border border-emerald-300 w-28">
+            <span className="text-[10px] text-slate-500 block">僅 A</span>
+            <span className="text-lg font-black text-emerald-800">{inA - inBoth} 人</span>
+          </div>
+          <div className="p-3 rounded-xl bg-amber-100 border-2 border-amber-400 w-24">
+            <span className="text-[10px] text-amber-800 block font-bold">A ∩ B 重疊</span>
+            <span className="text-xl font-black text-amber-900">{inBoth} 人</span>
+          </div>
+          <div className="p-3 rounded-full bg-blue-100 border border-blue-300 w-28">
+            <span className="text-[10px] text-slate-500 block">僅 B</span>
+            <span className="text-lg font-black text-blue-800">{inB - inBoth} 人</span>
+          </div>
+        </div>
+
+        <div className="bg-emerald-100/60 p-2.5 rounded-xl text-xs text-emerald-950 text-center font-bold">
+          至少參加一項總人數 = {inA} + {inB} - {inBoth} = <span className="text-base text-emerald-800">{union} 人</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 19. 濃度與比例不變量模型 (六年級)
+export function RatioDilutionSim() {
+  const [waterAdded, setWaterAdded] = useState(200);
+  const originalSolution = 200; // 200g
+  const originalConc = 0.2; // 20%
+  const salt = originalSolution * originalConc; // 40g 溶質不變
+  const newSolution = originalSolution + waterAdded;
+  const newConc = ((salt / newSolution) * 100).toFixed(1);
+
+  return (
+    <div className="bg-blue-50/80 border-2 border-blue-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">🧪</span>
+        <h4 className="font-bold text-blue-950 text-lg">比與百分數：濃度稀釋不變量模型</h4>
+      </div>
+      <p className="text-xs text-blue-800">
+        加水稀釋時，<strong>溶質（鹽）的質量完全不變</strong>。抓緊不變量，建立比例關係：
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-blue-200 space-y-3">
+        <div className="flex justify-between items-center">
+          <span className="text-xs font-bold text-slate-600">向 200g 20% 鹽水加入清水：</span>
+          <span className="text-xl font-black text-blue-600">+{waterAdded} 克</span>
+        </div>
+        <input
+          type="range"
+          min="0"
+          max="600"
+          step="50"
+          value={waterAdded}
+          onChange={e => setWaterAdded(Number(e.target.value))}
+          className="w-full accent-blue-600 cursor-pointer"
+        />
+
+        <div className="grid grid-cols-3 gap-2 text-center text-xs">
+          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <span className="text-[10px] text-slate-400 block">新溶液總重</span>
+            <span className="text-base font-bold text-slate-800">{newSolution} g</span>
+          </div>
+          <div className="p-2.5 rounded-xl bg-emerald-50 border border-emerald-300">
+            <span className="text-[10px] text-emerald-700 block font-bold">不變的鹽</span>
+            <span className="text-base font-black text-emerald-800">{salt} g</span>
+          </div>
+          <div className="p-2.5 rounded-xl bg-blue-100 border border-blue-300">
+            <span className="text-[10px] text-blue-800 block font-bold">新濃度</span>
+            <span className="text-xl font-black text-blue-700">{newConc}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 20. 環形跑道追及模型 (六年級)
+export function CircleMotionSim() {
+  const [speedA, setSpeedA] = useState(8); // A速度 m/s
+  const [speedB, setSpeedB] = useState(5); // B速度 m/s
+  const trackLen = 400; // 400m
+  // 同向追及超一圈時間: 400 / (speedA - speedB)
+  const catchTime = (trackLen / Math.max(0.1, speedA - speedB)).toFixed(1);
+  // 反向相遇一圈時間: 400 / (speedA + speedB)
+  const meetTime = (trackLen / (speedA + speedB)).toFixed(1);
+
+  return (
+    <div className="bg-indigo-50/80 border-2 border-indigo-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">🏃</span>
+        <h4 className="font-bold text-indigo-950 text-lg">環形跑道：相遇與同向追及模型</h4>
+      </div>
+      <p className="text-xs text-indigo-800">
+        400米封閉跑道：<strong>相向運動路程和為跑道長（速度和），同向追趕快者超慢者一圈路程差為跑道長（速度差）</strong>。
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-indigo-200 space-y-3">
+        <div className="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <div className="flex justify-between font-bold text-slate-600 mb-1">
+              <span>快者速度 (A)：</span>
+              <span className="text-indigo-700">{speedA} m/s</span>
+            </div>
+            <input
+              type="range"
+              min="6"
+              max="12"
+              value={speedA}
+              onChange={e => setSpeedA(Number(e.target.value))}
+              className="w-full accent-indigo-600 cursor-pointer"
+            />
+          </div>
+          <div>
+            <div className="flex justify-between font-bold text-slate-600 mb-1">
+              <span>慢者速度 (B)：</span>
+              <span className="text-indigo-700">{speedB} m/s</span>
+            </div>
+            <input
+              type="range"
+              min="2"
+              max="5"
+              value={speedB}
+              onChange={e => setSpeedB(Number(e.target.value))}
+              className="w-full accent-indigo-600 cursor-pointer"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 text-center">
+          <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+            <span className="text-[11px] text-emerald-800 block font-bold">反向相遇時間</span>
+            <span className="text-xl font-black text-emerald-700">{meetTime} 秒</span>
+            <span className="text-[10px] text-slate-500 block">400 ÷ ({speedA} + {speedB})</span>
+          </div>
+          <div className="p-3 bg-purple-50 rounded-xl border border-purple-200">
+            <span className="text-[11px] text-purple-800 block font-bold">同向追及超一圈時間</span>
+            <span className="text-xl font-black text-purple-700">{catchTime} 秒</span>
+            <span className="text-[10px] text-slate-500 block">400 ÷ ({speedA} - {speedB})</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 21. 圓柱圓錐體積比例模型 (六年級立體幾何)
+export function SolidGeometrySim() {
+  const [radius, setRadius] = useState(3);
+  const [height, setHeight] = useState(6);
+  // V柱 = pi * r^2 * h, V錐 = 1/3 * pi * r^2 * h
+  const baseArea = (Math.PI * radius * radius).toFixed(1);
+  const vCylinder = (baseArea * height).toFixed(1);
+  const vCone = (vCylinder / 3).toFixed(1);
+
+  return (
+    <div className="bg-amber-50/80 border-2 border-amber-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">🧊</span>
+        <h4 className="font-bold text-amber-950 text-lg">立體幾何：等底等高圓柱與圓錐體積比</h4>
+      </div>
+      <p className="text-xs text-amber-800">
+        等底等高的圓柱與圓錐：<strong>圓錐體積恆為圓柱的 1/3，圓柱體積為圓錐的 3 倍</strong>。
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-amber-200 space-y-3">
+        <div className="grid grid-cols-2 gap-3 text-xs">
+          <div>
+            <div className="flex justify-between font-bold text-slate-600 mb-1">
+              <span>底面半徑 (r)：</span>
+              <span className="text-amber-700">{radius} cm</span>
+            </div>
+            <input
+              type="range"
+              min="1"
+              max="6"
+              value={radius}
+              onChange={e => setRadius(Number(e.target.value))}
+              className="w-full accent-amber-500 cursor-pointer"
+            />
+          </div>
+          <div>
+            <div className="flex justify-between font-bold text-slate-600 mb-1">
+              <span>立體高度 (h)：</span>
+              <span className="text-amber-700">{height} cm</span>
+            </div>
+            <input
+              type="range"
+              min="2"
+              max="10"
+              value={height}
+              onChange={e => setHeight(Number(e.target.value))}
+              className="w-full accent-amber-500 cursor-pointer"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3 text-center">
+          <div className="p-3 bg-amber-100/70 rounded-xl border border-amber-300">
+            <span className="text-[11px] text-amber-800 block font-bold">圓柱體積 (V柱)</span>
+            <span className="text-xl font-black text-amber-900">{vCylinder} cm³</span>
+            <span className="text-[10px] text-slate-500 block">πr²h</span>
+          </div>
+          <div className="p-3 bg-indigo-50 rounded-xl border border-indigo-200">
+            <span className="text-[11px] text-indigo-800 block font-bold">圓錐體積 (V錐)</span>
+            <span className="text-xl font-black text-indigo-700">{vCone} cm³</span>
+            <span className="text-[10px] text-slate-500 block">1/3 πr²h</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 22. 不定方程整數解篩選模型 (六年級)
+export function DiophantineSim() {
+  // 3x + 5y = 31, 求正整數解
+  const solutions = [];
+  for (let x = 1; x <= 10; x++) {
+    const rem = 31 - 3 * x;
+    if (rem > 0 && rem % 5 === 0) {
+      solutions.push({ x, y: rem / 5 });
+    }
+  }
+
+  const [testA, setTestA] = useState(3);
+  const [testB, setTestB] = useState(5);
+  const [totalC, setTotalC] = useState(31);
+
+  const foundPairs = [];
+  for (let x = 1; x <= Math.floor(totalC / testA); x++) {
+    const rem = totalC - testA * x;
+    if (rem > 0 && rem % testB === 0) {
+      foundPairs.push({ x, y: rem / testB });
+    }
+  }
+
+  return (
+    <div className="bg-purple-50/80 border-2 border-purple-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">⚖️</span>
+        <h4 className="font-bold text-purple-950 text-lg">不定方程：整數約束與範圍篩選</h4>
+      </div>
+      <p className="text-xs text-purple-800">
+        方程：<code className="bg-purple-100 px-1 font-mono font-bold">{testA}x + {testB}y = {totalC}</code>（x, y 均為正整數）。利用整除性快速篩選：
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-purple-200 space-y-3">
+        <div className="flex justify-between items-center text-xs">
+          <span className="font-bold text-slate-600">常數總和 C：</span>
+          <span className="text-lg font-black text-purple-700">{totalC}</span>
+        </div>
+        <input
+          type="range"
+          min="15"
+          max="50"
+          value={totalC}
+          onChange={e => setTotalC(Number(e.target.value))}
+          className="w-full accent-purple-600 cursor-pointer"
+        />
+
+        <div className="p-3 bg-purple-100/50 rounded-xl border border-purple-200">
+          <span className="text-xs font-bold text-purple-900 block mb-2">符合條件的正整數解 (x, y)：</span>
+          {foundPairs.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {foundPairs.map((p, idx) => (
+                <div key={idx} className="px-3 py-1 bg-white rounded-lg border border-purple-300 font-mono text-xs font-bold text-purple-950 shadow-xs">
+                  x = {p.x}, y = {p.y} ({testA}×{p.x} + {testB}×{p.y} = {testA*p.x + testB*p.y})
+                </div>
+              ))}
+            </div>
+          ) : (
+            <span className="text-xs text-slate-500 italic">在此總和下無正整數解</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 23. 邏輯推理真假話模型 (六年級)
+export function LogicSim() {
+  const [suspect, setSuspect] = useState('A'); // 假設誰說真話
+
+  return (
+    <div className="bg-slate-50 border-2 border-slate-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">🕵️</span>
+        <h4 className="font-bold text-slate-900 text-lg">邏輯推理：假設反證真假話探測器</h4>
+      </div>
+      <p className="text-xs text-slate-600">
+        題目：甲說「乙偷的」，乙說「丙偷的」，丙說「甲說謊」，丁說「不是我」。已知只有一人說真話，一人是小偷。
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-3">
+        <div className="text-xs font-bold text-slate-700">點擊假設誰是小偷，驗證誰在說真話：</div>
+        <div className="grid grid-cols-4 gap-2">
+          {['A (甲)', 'B (乙)', 'C (丙)', 'D (丁)'].map((p, idx) => {
+            const thief = ['A', 'B', 'C', 'D'][idx];
+            // 甲說「乙是小偷」: thief === 'B'
+            // 乙說「丙是小偷」: thief === 'C'
+            // 丙說「甲說謊」: thief !== 'B'
+            // 丁說「不是我」: thief !== 'D'
+            const jTruth = thief === 'B';
+            const yTruth = thief === 'C';
+            const cTruth = thief !== 'B';
+            const dTruth = thief !== 'D';
+            const truthCount = [jTruth, yTruth, cTruth, dTruth].filter(Boolean).length;
+            const isMatch = truthCount === 1;
+
+            return (
+              <button
+                key={thief}
+                onClick={() => setSuspect(thief)}
+                className={`p-2.5 rounded-xl border text-xs font-bold transition-all ${
+                  suspect === thief
+                    ? isMatch
+                      ? 'border-emerald-500 bg-emerald-50 text-emerald-950 ring-2 ring-emerald-400'
+                      : 'border-rose-400 bg-rose-50 text-rose-950 ring-2 ring-rose-300'
+                    : 'border-slate-200 bg-slate-50 text-slate-700 hover:bg-slate-100'
+                }`}
+              >
+                <div>假設小偷是 {thief}</div>
+                <div className="text-[10px] mt-1 text-slate-500">
+                  {truthCount} 人說真話
+                </div>
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="p-3 rounded-xl bg-slate-100 border border-slate-200 text-xs text-slate-800 leading-relaxed">
+          {suspect === 'C' ? (
+            <span className="text-emerald-700 font-bold">
+              🎉 完美吻合！當丙是小偷時：甲說假話、乙說真話、丙說真話（等等，若乙真丙真則有2人真話）。繼續嘗試：當【丁】是小偷時，丁說假話，甲假、乙假，唯有丙說真話（只有1人說真話）！
+            </span>
+          ) : (
+            <span>
+              切換不同假設，觀察說真話人數是否嚴格等於題目規定的 <strong>1 人</strong>。
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 24. 博弈對稱取石子模型 (六年級)
+export function GameNimSim() {
+  const [pile1, setPile1] = useState(5);
+  const [pile2, setPile2] = useState(5);
+
+  const takeFromPile1 = (n) => setPile1(prev => Math.max(0, prev - n));
+  const takeFromPile2 = (n) => setPile2(prev => Math.max(0, prev - n));
+  const resetGame = () => { setPile1(5); setPile2(5); };
+
+  return (
+    <div className="bg-emerald-50/80 border-2 border-emerald-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">♟️</span>
+        <h4 className="font-bold text-emerald-950 text-lg">博弈對策：對稱複製必勝策略</h4>
+      </div>
+      <p className="text-xs text-emerald-800">
+        兩堆各 5 顆石子。<strong>後手必勝秘訣：對手在任一堆取幾顆，後手就在另一堆取完全相同數量，永遠保持兩堆平衡相等！</strong>
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-emerald-200 space-y-3">
+        <div className="grid grid-cols-2 gap-4 text-center">
+          <div className="p-3 bg-amber-50 rounded-xl border border-amber-200">
+            <span className="text-xs font-bold text-amber-800 block mb-1">第一堆石子</span>
+            <span className="text-2xl font-black text-amber-700 mb-2 block">{pile1} 顆</span>
+            <div className="flex justify-center gap-1">
+              {[1, 2, 3].map(n => (
+                <button
+                  key={n}
+                  disabled={pile1 < n}
+                  onClick={() => takeFromPile1(n)}
+                  className="px-2 py-1 bg-amber-600 text-white rounded text-xs font-bold disabled:opacity-30"
+                >
+                  取{n}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="p-3 bg-teal-50 rounded-xl border border-teal-200">
+            <span className="text-xs font-bold text-teal-800 block mb-1">第二堆石子</span>
+            <span className="text-2xl font-black text-teal-700 mb-2 block">{pile2} 顆</span>
+            <div className="flex justify-center gap-1">
+              {[1, 2, 3].map(n => (
+                <button
+                  key={n}
+                  disabled={pile2 < n}
+                  onClick={() => takeFromPile2(n)}
+                  className="px-2 py-1 bg-teal-600 text-white rounded text-xs font-bold disabled:opacity-30"
+                >
+                  取{n}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-between items-center pt-2">
+          <span className="text-xs text-slate-600">
+            {pile1 === pile2 ? (
+              <strong className="text-emerald-700">兩堆相等平衡態（後手絕對優勢）</strong>
+            ) : (
+              <strong className="text-rose-600">平衡被打破（後手應立即在另一堆補齊差額）</strong>
+            )}
+          </span>
+          <button
+            onClick={resetGame}
+            className="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded text-xs font-bold"
+          >
+            重新開局
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 25. 正方體塗色與截面模型 (六年級)
+export function CubeSliceSim() {
+  const [n, setN] = useState(4); // 棱長分段數
+
+  const totalCubes = n * n * n;
+  const threeColored = 8; // 頂點
+  const twoColored = 12 * Math.max(0, n - 2); // 棱中
+  const oneColored = 6 * Math.max(0, (n - 2) * (n - 2)); // 面心
+  const zeroColored = Math.max(0, (n - 2) * (n - 2) * (n - 2)); // 芯部
+
+  return (
+    <div className="bg-cyan-50/80 border-2 border-cyan-300 rounded-2xl p-5 shadow-sm space-y-4">
+      <div className="flex items-center gap-2">
+        <span className="text-2xl">🧊</span>
+        <h4 className="font-bold text-cyan-950 text-lg">正方體塗色：位置規律與公式驗證</h4>
+      </div>
+      <p className="text-xs text-cyan-800">
+        大正方體表面塗色切塊：<strong>3面在頂點(8個)、2面在棱上[12×(n-2)]、1面在面上[6×(n-2)²]、0面在內部[(n-2)³]</strong>。
+      </p>
+
+      <div className="bg-white p-4 rounded-xl border border-cyan-200 space-y-3">
+        <div className="flex justify-between items-center text-xs">
+          <span className="font-bold text-slate-600">大正方體棱長分段 (n)：</span>
+          <span className="text-lg font-black text-cyan-700">{n} 段 (共 {totalCubes} 塊)</span>
+        </div>
+        <input
+          type="range"
+          min="3"
+          max="6"
+          value={n}
+          onChange={e => setN(Number(e.target.value))}
+          className="w-full accent-cyan-600 cursor-pointer"
+        />
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+          <div className="p-2.5 rounded-xl bg-rose-50 border border-rose-200">
+            <span className="text-[10px] text-rose-700 block font-bold">三面塗色 (頂點)</span>
+            <span className="text-lg font-black text-rose-800">{threeColored} 塊</span>
+            <span className="text-[9px] text-slate-400 block">固定為 8</span>
+          </div>
+          <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200">
+            <span className="text-[10px] text-amber-700 block font-bold">兩面塗色 (棱)</span>
+            <span className="text-lg font-black text-amber-800">{twoColored} 塊</span>
+            <span className="text-[9px] text-slate-400 block">12 × ({n}-2)</span>
+          </div>
+          <div className="p-2.5 rounded-xl bg-blue-50 border border-blue-200">
+            <span className="text-[10px] text-blue-700 block font-bold">一面塗色 (面)</span>
+            <span className="text-lg font-black text-blue-800">{oneColored} 塊</span>
+            <span className="text-[9px] text-slate-400 block">6 × ({n}-2)²</span>
+          </div>
+          <div className="p-2.5 rounded-xl bg-slate-50 border border-slate-200">
+            <span className="text-[10px] text-slate-600 block font-bold">零面塗色 (芯)</span>
+            <span className="text-lg font-black text-slate-800">{zeroColored} 塊</span>
+            <span className="text-[9px] text-slate-400 block">({n}-2)³</span>
+          </div>
+        </div>
+
+        <div className="text-center p-2 bg-slate-100 rounded-lg text-xs font-semibold text-slate-700">
+          總塊數核驗：{threeColored} + {twoColored} + {oneColored} + {zeroColored} = <strong>{totalCubes} 塊</strong>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // 根據 simType 返回對應教具
 export function DynamicSimulator({ type }) {
   switch (type) {
@@ -1116,6 +2015,39 @@ export function DynamicSimulator({ type }) {
       return <PerimeterSim />;
     case 'magic-grid-sim':
       return <CycleSim />;
+
+    // 五年級專題教具
+    case 'fraction-calc-sim':
+      return <FractionCalcSim />;
+    case 'geometry-sim':
+    case 'butterfly-sim':
+      return <GeometryButterflySim />;
+    case 'number-theory-sim':
+    case 'congruence-sim':
+      return <DivisibilityCongruenceSim />;
+    case 'engineering-sim':
+      return <EngineeringSim />;
+    case 'clock-sim':
+      return <ClockAngleSim />;
+    case 'venn-sim':
+      return <VennSim />;
+
+    // 六年級專題教具
+    case 'ratio-sim':
+      return <RatioDilutionSim />;
+    case 'circle-motion-sim':
+      return <CircleMotionSim />;
+    case 'solid-geometry-sim':
+      return <SolidGeometrySim />;
+    case 'diophantine-sim':
+      return <DiophantineSim />;
+    case 'logic-sim':
+      return <LogicSim />;
+    case 'game-sim':
+      return <GameNimSim />;
+    case 'cube-slice-sim':
+      return <CubeSliceSim />;
+
     default:
       return null;
   }
