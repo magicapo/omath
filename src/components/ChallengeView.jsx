@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ArrowLeft, 
   Lightbulb, 
@@ -17,15 +17,23 @@ export function ChallengeView({
   topic,
   level,
   onBack,
-  onCompleteLevel,
-  isCompleted
+  onCompleteLevel
 }) {
   const [selectedOption, setSelectedOption] = useState('');
   const [inputVal, setInputVal] = useState('');
-  const [revealedHints, setRevealedHints] = useState(isCompleted ? (level.hints?.length || 0) : 0);
+  const [revealedHints, setRevealedHints] = useState(0);
   const [showSim, setShowSim] = useState(false);
-  const [resultStatus, setResultStatus] = useState(isCompleted ? 'success' : 'idle'); // 'idle' | 'success' | 'error'
-  const [showFullExplanation, setShowFullExplanation] = useState(isCompleted);
+  const [resultStatus, setResultStatus] = useState('idle'); // 'idle' | 'success' | 'error'
+  const [showFullExplanation, setShowFullExplanation] = useState(false);
+
+  // 當題目切換時，重設作答狀態，不預先顯示答案與提示
+  useEffect(() => {
+    setSelectedOption('');
+    setInputVal('');
+    setRevealedHints(0);
+    setResultStatus('idle');
+    setShowFullExplanation(false);
+  }, [level?.id]);
 
   // Check answers
   const handleSubmit = (userAns) => {

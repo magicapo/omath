@@ -184,7 +184,6 @@ export function App() {
             level={activeLevel}
             onBack={handleBackToMap}
             onCompleteLevel={handleCompleteLevel}
-            isCompleted={!!progress.completedLevels[activeLevel?.id]}
           />
         )}
       </main>
