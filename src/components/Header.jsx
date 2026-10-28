@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { Volume2, VolumeX, BookOpen } from 'lucide-react';
-import { sounds } from '../utils/audio';
+import React from 'react';
+import { BookOpen } from 'lucide-react';
 
 export function Header({
   currentGrade,
@@ -8,14 +7,6 @@ export function Header({
   onOpenGuide,
   onOpenWiki
 }) {
-  const [isMuted, setIsMuted] = useState(sounds.muted);
-
-  const toggleSound = () => {
-    const muted = sounds.toggleMute();
-    setIsMuted(muted);
-    if (!muted) sounds.playClick();
-  };
-
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-sm transition-all">
       <div className="max-w-6xl mx-auto px-3.5 sm:px-6 py-2 sm:py-2.5">
@@ -49,7 +40,6 @@ export function Header({
             <button
               onClick={() => {
                 if (currentGrade !== 3) {
-                  sounds.playClick();
                   onSelectGrade(3);
                 }
               }}
@@ -65,7 +55,6 @@ export function Header({
             <button
               onClick={() => {
                 if (currentGrade !== 4) {
-                  sounds.playClick();
                   onSelectGrade(4);
                 }
               }}
@@ -85,7 +74,6 @@ export function Header({
             <div className="hidden sm:flex items-center gap-1.5">
               <button
                 onClick={() => {
-                  sounds.playClick();
                   onOpenWiki();
                 }}
                 title="奧數體系與領域指南"
@@ -97,7 +85,6 @@ export function Header({
 
               <button
                 onClick={() => {
-                  sounds.playClick();
                   onOpenGuide();
                 }}
                 title="重點方法整理"
@@ -106,21 +93,6 @@ export function Header({
                 <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
-
-            <div className="h-4 w-px bg-slate-200 hidden sm:block" />
-
-            {/* Audio Toggle */}
-            <button
-              onClick={toggleSound}
-              title={isMuted ? "開啟音效" : "靜音模式"}
-              className="p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 transition-colors active:scale-95"
-            >
-              {isMuted ? (
-                <VolumeX className="w-4 h-4 text-slate-400" />
-              ) : (
-                <Volume2 className="w-4 h-4 text-emerald-600" />
-              )}
-            </button>
           </div>
         </div>
 
@@ -130,7 +102,6 @@ export function Header({
             <button
               onClick={() => {
                 if (currentGrade !== 3) {
-                  sounds.playClick();
                   onSelectGrade(3);
                 }
               }}
@@ -146,7 +117,6 @@ export function Header({
             <button
               onClick={() => {
                 if (currentGrade !== 4) {
-                  sounds.playClick();
                   onSelectGrade(4);
                 }
               }}
