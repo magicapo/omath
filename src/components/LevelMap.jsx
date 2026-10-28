@@ -48,18 +48,6 @@ export function LevelMap({
   onOpenSim,
   onOpenWiki
 }) {
-  // Calculate grade-specific completed questions
-  const gradeLevelIds = topics.flatMap(t => t.levels.map(l => l.id));
-  const completedCountForGrade = gradeLevelIds.filter(id => userProgress.completedLevels?.[id]).length;
-  const progressPercent = Math.round((completedCountForGrade / 21) * 100);
-
-  // Learning stage
-  let stageLabel = "基礎學習階段";
-  if (completedCountForGrade >= 18) stageLabel = "精熟級 (Mastery)";
-  else if (completedCountForGrade >= 12) stageLabel = "進階級 (Advanced)";
-  else if (completedCountForGrade >= 6) stageLabel = "熟練級 (Proficient)";
-  else if (completedCountForGrade >= 1) stageLabel = "實踐級 (Practice)";
-
   const bannerGradient = grade === 4
     ? "from-slate-800 via-indigo-900 to-slate-900"
     : "from-slate-800 via-amber-950 to-slate-900";
@@ -80,33 +68,11 @@ export function LevelMap({
               ? "四年級進階專題：建立抽象模型與結構化分析思維"
               : "三年級核心專題：奠定邏輯推理與具象建模基礎"}
           </h1>
-          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed mb-4 max-w-2xl font-normal">
+          <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl font-normal">
             {grade === 4
-              ? "涵蓋行程問題、抽屜原理、等積變形、流水行船與數論初步，掌握運動、幾何與整除的不變量分析方法。"
-              : "涵蓋速算巧算、雞兔同籠、植樹間隔與和差倍等經典專題，透過具象教具與線段圖，建立條理分明的思考習慣。"}
+              ? "涵蓋行程問題、抽屜原理、等積變形、流水行船與數論初步，掌握運動、幾何與整除的不變量分析方法。所有題目皆已解鎖，可自由選擇單元練習。"
+              : "涵蓋速算巧算、雞兔同籠、植樹間隔與和差倍等經典專題，透過具象教具與線段圖，建立條理分明的思考習慣。所有題目皆已解鎖，可自由選擇單元練習。"}
           </p>
-
-          {/* Progress overview */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 sm:p-3.5 border border-white/10 max-w-lg">
-            <div className="flex justify-between items-center text-xs mb-1.5">
-              <span className="flex items-center gap-1.5">
-                <span className="text-slate-300 text-[11px]">學習程度：</span>
-                <span className="bg-amber-400 text-slate-950 px-2 py-0.5 rounded text-[11px] font-bold">
-                  {stageLabel}
-                </span>
-              </span>
-              <span className="text-[11px] sm:text-xs text-slate-200 font-medium">
-                進度：{completedCountForGrade} / 21 題 ({progressPercent}%)
-              </span>
-            </div>
-
-            <div className="w-full h-2 bg-slate-950/60 rounded-full overflow-hidden p-0.5">
-              <div
-                className="h-full bg-amber-400 rounded-full transition-all duration-700 ease-out"
-                style={{ width: `${Math.max(4, progressPercent)}%` }}
-              />
-            </div>
-          </div>
         </div>
       </div>
 
@@ -184,24 +150,18 @@ export function LevelMap({
                     <div className="space-y-1">
                       {topic.levels.map((level, lvlIdx) => {
                         const isDone = !!userProgress.completedLevels?.[level.id];
-                        const isUnlocked =
-                          lvlIdx === 0 ||
-                          !!userProgress.completedLevels?.[topic.levels[lvlIdx - 1].id];
 
                         return (
                           <button
                             key={level.id}
-                            disabled={!isUnlocked}
                             onClick={() => {
                               sounds.playClick();
                               onSelectLevel(topic, level);
                             }}
-                            className={`w-full text-left p-2.5 rounded-lg text-xs font-medium flex items-center justify-between transition-all min-h-[42px] ${
+                            className={`w-full text-left p-2.5 rounded-lg text-xs font-medium flex items-center justify-between transition-all min-h-[42px] cursor-pointer ${
                               isDone
                                 ? 'bg-amber-50/70 border border-amber-200 text-amber-950 hover:bg-amber-100/60'
-                                : isUnlocked
-                                ? 'bg-slate-50 border border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-100/70'
-                                : 'bg-slate-50/50 border border-slate-200/50 text-slate-400 cursor-not-allowed opacity-60'
+                                : 'bg-slate-50 border border-slate-200 text-slate-800 hover:border-slate-300 hover:bg-slate-100/70'
                             }`}
                           >
                             <div className="flex items-center gap-2 min-w-0">
@@ -209,9 +169,7 @@ export function LevelMap({
                                 className={`w-5 h-5 rounded flex items-center justify-center text-[10px] font-bold shrink-0 ${
                                   isDone
                                     ? 'bg-amber-400 text-amber-950'
-                                    : isUnlocked
-                                    ? 'bg-slate-200 text-slate-700'
-                                    : 'bg-slate-200 text-slate-400'
+                                    : 'bg-slate-200 text-slate-700'
                                 }`}
                               >
                                 {lvlIdx + 1}
@@ -222,10 +180,8 @@ export function LevelMap({
                             <div className="flex items-center gap-1.5 shrink-0 ml-2">
                               {isDone ? (
                                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                              ) : isUnlocked ? (
-                                <Play className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
                               ) : (
-                                <Lock className="w-3.5 h-3.5 text-slate-400" />
+                                <Play className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
                               )}
                             </div>
                           </button>

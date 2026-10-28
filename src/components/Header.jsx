@@ -94,13 +94,6 @@ export function Header({
               </div>
             )}
 
-            {/* Stars / Progress */}
-            <div className="flex items-center gap-1 bg-amber-50 border border-amber-200 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-lg text-xs sm:text-sm font-bold text-amber-800 shadow-inner">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              <span>{stats.stars}</span>
-              <span className="opacity-40 text-xs font-normal">/21 題</span>
-            </div>
-
             <div className="h-4 w-px bg-slate-200 hidden sm:block" />
 
             {/* Desktop Action Buttons */}
