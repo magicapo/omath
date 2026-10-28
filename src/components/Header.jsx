@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Star, Coins, Volume2, VolumeX, BookOpen, Flame, Compass } from 'lucide-react';
+import { Volume2, VolumeX, BookOpen } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 export function Header({
-  stats,
   currentGrade,
   onSelectGrade,
   onOpenGuide,
@@ -80,21 +79,8 @@ export function Header({
             </button>
           </div>
 
-          {/* User Stats & Controls */}
+          {/* User Controls */}
           <div className="flex items-center gap-1.5 sm:gap-2.5">
-            {/* Streak */}
-            {stats.streak > 0 && (
-              <div
-                className="flex items-center gap-1 bg-orange-50 border border-orange-200 text-orange-700 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg text-xs font-bold"
-                title={`連續答對 ${stats.streak} 題`}
-              >
-                <Flame className="w-3.5 h-3.5 fill-orange-500 text-orange-500" />
-                <span>{stats.streak} 連對</span>
-              </div>
-            )}
-
-            <div className="h-4 w-px bg-slate-200 hidden sm:block" />
-
             {/* Desktop Action Buttons */}
             <div className="hidden sm:flex items-center gap-1.5">
               <button
@@ -120,6 +106,8 @@ export function Header({
                 <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
             </div>
+
+            <div className="h-4 w-px bg-slate-200 hidden sm:block" />
 
             {/* Audio Toggle */}
             <button

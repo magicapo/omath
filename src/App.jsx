@@ -101,23 +101,14 @@ export function App() {
   }, []);
 
   const handleCompleteLevel = (levelId) => {
-    const isAlreadyDone = !!progress.completedLevels[levelId];
     const newCompleted = {
       ...progress.completedLevels,
       [levelId]: true
     };
 
-    const newStreak = progress.streak + 1;
-    const newStars = Object.values(newCompleted).filter(Boolean).length;
-    const coinsReward = isAlreadyDone ? 2 : 10;
-    const newCoins = progress.coins + coinsReward;
-
     setProgress(prev => ({
       ...prev,
-      completedLevels: newCompleted,
-      stars: newStars,
-      coins: newCoins,
-      streak: newStreak
+      completedLevels: newCompleted
     }));
   };
 
@@ -156,12 +147,6 @@ export function App() {
       <Header
         currentGrade={currentGrade}
         onSelectGrade={handleSelectGrade}
-        stats={{
-          stars: gradeCompletedCount,
-          totalStars: progress.stars,
-          coins: progress.coins,
-          streak: progress.streak
-        }}
         onOpenGuide={() => setIsGuideOpen(true)}
         onOpenWiki={handleOpenWiki}
         isWikiActive={isWikiOpen}
