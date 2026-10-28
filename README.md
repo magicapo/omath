@@ -1,25 +1,104 @@
-# 奧林匹亞數學知識庫 (Olympiad Mathematics Hub)
+# 奧數思維訓練系統 (OMath - Olympiad Mathematics Platform)
 
-本專案收錄並整理了奧林匹亞數學（IMO 體系）的完整知識架構、核心領域、解題思維與競賽路徑，並提供 Markdown 知識筆記與現代化互動網頁。
+專為國小高年級與中低年級打造的現代化奧林匹亞數學（Olympiad Math）啟蒙與思維訓練平台。涵蓋**三年級到六年級**完整專題體系、**28 個核心專題**、**84 道由淺入深的漸進題型**，以及**全套互動可視化教具模型**。
 
----
-
-## 專案結構
-
-- [olympiad_mathematics.md](file:///Users/mmm/AntiG/OMath/olympiad_mathematics.md)：完整的奧林匹亞數學 Markdown 彙整筆記。
-- [index.html](file:///Users/mmm/AntiG/OMath/index.html)：現代化互動網頁首頁。
-- [styles.css](file:///Users/mmm/AntiG/OMath/styles.css)：響應式樣式表，支援深淺色主題切換、流體字體排印與 KaTeX 數學公式呈現。
-- [app.js](file:///Users/mmm/AntiG/OMath/app.js)：網頁互動邏輯（KaTeX 公式渲染、領域篩選、路徑切換、滾動定位監聽）。
+🌐 **線上正式網址**：[https://omath-app.vercel.app](https://omath-app.vercel.app)  
+備用鏡像：[https://omath-hub.vercel.app](https://omath-hub.vercel.app)
 
 ---
 
-## 如何預覽網頁
+## ✨ 核心特色
 
-您可以直接在瀏覽器中雙擊開啟 [index.html](file:///Users/mmm/AntiG/OMath/index.html)，或使用 Python 快速啟動本地靜態伺服器：
+1. **三至六年級完整覆蓋（28 專題 · 84 道題型）**
+   - **三年級（基礎專題 7 大單元 · 21 題）**：速算與巧算、雞兔同籠、植樹間隔、和差倍問題、年齡不變量、週期規律、周長等積轉換。
+   - **四年級（進階專題 7 大單元 · 21 題）**：行程相遇與追及、抽屜原理與最不利原則、等積變形與鳥頭模型、流水行船向量疊加、火車過橋與相對運動、數論整除與奇偶性、邏輯推理與假設法。
+   - **五年級（拓展專題 7 大單元 · 21 題）**：分數巧算與裂項相消、幾何蝴蝶與燕尾模型、整除特徵與同餘定理（韓信點兵）、工程問題與效率疊加、時鐘問題與角速度追及、抽屜原理進階、排列組合與容斥原理。
+   - **六年級（高階專題 7 大單元 · 21 題）**：比與百分數應用（濃度稀釋不變量）、環形行程與多次相遇追及、立體幾何表面積與圓柱圓錐體積比、不定方程與整數約束篩選、真假話邏輯假設推理、極值問題與均值拆分（尼姆博弈對稱策略）、三視圖標數法與正方體塗色截面。
 
-```bash
-# 在此目錄下啟動本地伺服器
-python3 -m http.server 8000
+2. **28 套專屬互動動態教具（Visual Interactive Models）**
+   - 每個專題均配有專屬的互動教學模型，支援即時滑桿調整、狀態切換與公式視覺化：
+     - 雞兔同籠抬腳法模擬器
+     - 分數裂項相消正負抵消動態模型
+     - 梯形蝴蝶定理面積不變量比例器
+     - 韓信點兵同餘探測儀與中國剩餘定理驗算
+     - 工程合作效率與時鐘夾角角速度追及儀
+     - 濃度稀釋不變量曲線模擬器
+     - 環形跑道相遇與同向追及動態計算器
+     - 等底等高圓柱圓錐 3:1 體積比驗證
+     - 正方體表面塗色公式動態分解儀
+
+3. **🏛️ 奧數百科全書（IMO Encyclopedia）**
+   - 完整介紹奧數起源、AMC / IMO 國際選拔體系、與學校常規數學的本質差異、五大通用解題策略與長遠思維價值。
+
+4. **沉浸式學習體驗**
+   - **完全無噪音騷擾**：全面移除音效與音效控制，專注於靜心思考與推導。
+   - **無鎖定自由選題**：全部題目開放自由點選練習或複習。
+   - **分步引導式提示**：卡關時可展開循序漸進的思考提示與詳細解析步驟。
+   - **答對自動置頂導航**：完成當前題目後平滑切換下一題並自動定位至視窗頂部。
+
+---
+
+## 🛠️ 技術架構
+
+- **前端框架**：React 19 + Vite 6
+- **樣式設計**：Tailwind CSS + Lucide Icons + GFM 語法排版
+- **動態特效**：canvas-confetti
+- **持久化儲存**：瀏覽器 LocalStorage（自動保存年級選擇與各單元進度）
+- **持續部署**：GitHub Actions / Vercel Production Auto Deployment
+
+---
+
+## 📂 專案目錄結構
+
+```text
+OMath/
+├── src/
+│   ├── components/
+│   │   ├── Header.jsx           # 頂部導覽列（奧數簡介、三至六年級切換）
+│   │   ├── LevelMap.jsx         # 各年級專題卡片地圖
+│   │   ├── ChallengeView.jsx    # 題目作答、提示與解析畫面
+│   │   ├── Simulators.jsx       # 28 套互動動態教具模型
+│   │   ├── SimModal.jsx         # 互動教具彈出視窗容器
+│   │   ├── GuideModal.jsx       # 三至六年級核心思維指引手冊
+│   │   ├── OlympiadWikiView.jsx # 奧數百科全書連貫長篇
+│   │   └── BottomNav.jsx        # 行動端底部導覽列
+│   ├── data/
+│   │   ├── topics.js            # 專題集中索引（TOPICS_BY_GRADE）
+│   │   ├── topicsGrade4.js      # 四年級題庫與專題定義
+│   │   ├── topicsGrade5.js      # 五年級題庫與專題定義
+│   │   └── topicsGrade6.js      # 六年級題庫與專題定義
+│   ├── utils/
+│   │   └── audio.js             # 靜音模式空介面
+│   ├── App.jsx                  # 主程式狀態管理與路由切換
+│   └── main.jsx                 # 應用程式入口
+├── package.json
+├── tailwind.config.js
+├── vite.config.js
+└── README.md
 ```
 
-接著在瀏覽器打開：`http://localhost:8000` 即可體驗完整的互動網頁。
+---
+
+## 🚀 本地開發與構建
+
+### 1. 安裝相依套件
+```bash
+npm install
+```
+
+### 2. 啟動本地開發伺服器
+```bash
+npm run dev
+```
+啟動後在瀏覽器開啟提示的網址（通常為 `http://localhost:5173`）。
+
+### 3. 編譯生產版本
+```bash
+npm run build
+```
+
+---
+
+## 📜 授權協議
+
+本專案基於 MIT 授權條款開源。
