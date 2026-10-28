@@ -1,11 +1,10 @@
 import React from 'react';
-import { Map, PenTool, BookOpen, Award } from 'lucide-react';
+import { Map, BookOpen, Award } from 'lucide-react';
 import { sounds } from '../utils/audio';
 
 export function BottomNav({
   currentView,
   onNavigateToMap,
-  onOpenScratchpad,
   onOpenWiki,
   onOpenGuide,
   onOpenBadges,
@@ -16,7 +15,7 @@ export function BottomNav({
       className="sm:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-lg border-t border-slate-200/90 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] px-2 pt-1.5 pb-[max(0.5rem,env(safe-area-inset-bottom))]"
       aria-label="主要導覽"
     >
-      <div className="grid grid-cols-5 items-center max-w-md mx-auto text-center">
+      <div className="grid grid-cols-4 items-center max-w-md mx-auto text-center">
         {/* 1. 專題目錄 */}
         <button
           onClick={() => {
@@ -37,21 +36,7 @@ export function BottomNav({
           <span className="text-[10px] mt-0.5 tracking-tight">專題目錄</span>
         </button>
 
-        {/* 2. 草稿計算板 */}
-        <button
-          onClick={() => {
-            sounds.playClick();
-            onOpenScratchpad();
-          }}
-          className="flex flex-col items-center justify-center py-1 px-1 rounded-xl text-slate-500 font-medium hover:text-slate-800 transition-all active:scale-95"
-        >
-          <div className="w-8 h-8 rounded-full flex items-center justify-center bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors">
-            <PenTool className="w-4 h-4" />
-          </div>
-          <span className="text-[10px] mt-0.5 tracking-tight">計算草稿</span>
-        </button>
-
-        {/* 3. 奧數簡介 */}
+        {/* 2. 奧數簡介 */}
         <button
           onClick={() => {
             sounds.playClick();
@@ -65,7 +50,7 @@ export function BottomNav({
           <span className="text-[10px] mt-0.5 tracking-tight">奧數簡介</span>
         </button>
 
-        {/* 4. 思維方法 */}
+        {/* 3. 思維方法 */}
         <button
           onClick={() => {
             sounds.playClick();
@@ -79,7 +64,7 @@ export function BottomNav({
           <span className="text-[10px] mt-0.5 tracking-tight">思維方法</span>
         </button>
 
-        {/* 5. 學習成果 */}
+        {/* 4. 學習成果 */}
         <button
           onClick={() => {
             sounds.playClick();

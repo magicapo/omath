@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import confetti from 'canvas-confetti';
 import { 
   ArrowLeft, 
   Lightbulb, 
-  PenTool, 
   HelpCircle, 
   CheckCircle2, 
   XCircle, 
@@ -20,7 +18,6 @@ export function ChallengeView({
   level,
   onBack,
   onCompleteLevel,
-  onOpenScratchpad,
   isCompleted
 }) {
   const [selectedOption, setSelectedOption] = useState('');
@@ -76,7 +73,7 @@ export function ChallengeView({
           <span>返回目錄</span>
         </button>
 
-        <div className="flex items-center gap-1.5 truncate max-w-[55%] sm:max-w-none">
+        <div className="flex items-center gap-1.5 truncate">
           <span className="text-[11px] sm:text-xs font-semibold text-slate-500 hidden md:inline truncate">
             {topic.title} ·
           </span>
@@ -84,17 +81,6 @@ export function ChallengeView({
             第 {currentLvlIndex + 1} 題：{level.name}
           </span>
         </div>
-
-        <button
-          onClick={() => {
-            sounds.playClick();
-            onOpenScratchpad();
-          }}
-          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-amber-100 text-amber-950 hover:bg-amber-200 transition-colors shadow-xs shrink-0 active:scale-98"
-        >
-          <PenTool className="w-3.5 h-3.5 text-amber-800" />
-          <span className="text-[11px] sm:text-xs">草稿板</span>
-        </button>
       </div>
 
       {/* Main Challenge Card */}
@@ -248,7 +234,7 @@ export function ChallengeView({
                     答案不正確
                   </div>
                   <p className="text-[11px] sm:text-xs text-rose-700 mt-0.5">
-                    請重新檢查算式或參考思路指引，或打開草稿板重新驗算。
+                    請重新檢查算式或參考思路指引，重新驗算。
                   </p>
                 </div>
               </div>

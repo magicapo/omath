@@ -4,7 +4,6 @@ import { Header } from './components/Header';
 import { BottomNav } from './components/BottomNav';
 import { LevelMap } from './components/LevelMap';
 import { ChallengeView } from './components/ChallengeView';
-import { Scratchpad } from './components/Scratchpad';
 import { BadgesModal } from './components/BadgesModal';
 import { GuideModal } from './components/GuideModal';
 import { SimModal } from './components/SimModal';
@@ -48,7 +47,6 @@ export function App() {
   const [activeLevel, setActiveLevel] = useState(null);
 
   // Modals
-  const [isScratchpadOpen, setIsScratchpadOpen] = useState(false);
   const [isBadgesOpen, setIsBadgesOpen] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isWikiOpen, setIsWikiOpen] = useState(false);
@@ -174,16 +172,6 @@ export function App() {
     }));
   };
 
-  const handleDrawAction = () => {
-    if (!progress.unlockedBadges['scratch-user']) {
-      setProgress(prev => ({
-        ...prev,
-        unlockedBadges: { ...prev.unlockedBadges, 'scratch-user': true },
-        newBadge: true
-      }));
-    }
-  };
-
   const handleSelectLevel = (topic, level) => {
     setActiveTopic(topic);
     setActiveLevel(level);
@@ -252,7 +240,6 @@ export function App() {
             level={activeLevel}
             onBack={handleBackToMap}
             onCompleteLevel={handleCompleteLevel}
-            onOpenScratchpad={() => setIsScratchpadOpen(true)}
             isCompleted={!!progress.completedLevels[activeLevel?.id]}
           />
         )}
@@ -294,26 +281,10 @@ export function App() {
         </div>
       </footer>
 
-      {/* Desktop Floating Scratchpad Button */}
-      {currentView === 'map' && (
-        <button
-          onClick={() => {
-            sounds.playClick();
-            setIsScratchpadOpen(true);
-          }}
-          className="hidden sm:flex fixed bottom-6 right-6 z-30 p-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-white shadow-lg hover:shadow-xl transition-all items-center gap-2 font-bold text-xs active:scale-95"
-          title="開啟草稿計算板"
-        >
-          <span className="text-base">✏️</span>
-          <span>草稿計算板</span>
-        </button>
-      )}
-
       {/* Mobile-only Bottom Navigation Bar */}
       <BottomNav
         currentView={currentView}
         onNavigateToMap={handleBackToMap}
-        onOpenScratchpad={() => setIsScratchpadOpen(true)}
         onOpenWiki={handleOpenWiki}
         onOpenGuide={() => setIsGuideOpen(true)}
         onOpenBadges={() => {
@@ -325,12 +296,6 @@ export function App() {
       />
 
       {/* Modals */}
-      <Scratchpad
-        isOpen={isScratchpadOpen}
-        onClose={() => setIsScratchpadOpen(false)}
-        onDrawAction={handleDrawAction}
-      />
-
       <BadgesModal
         isOpen={isBadgesOpen}
         onClose={() => setIsBadgesOpen(false)}

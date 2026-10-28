@@ -678,7 +678,6 @@ export const ACHIEVEMENTS = [
   { id: 'first-step', title: '初試鋒芒', icon: 'Flag', desc: '完成第 1 道題目的解題練習' },
   { id: 'streak-3', title: '思維連貫', icon: 'Flame', desc: '連續答對 3 道題目' },
   { id: 'perfect-island', title: '專題精通', icon: 'Crown', desc: '完整完成任一專題全部 3 道題目' },
-  { id: 'scratch-user', title: '演算實踐', icon: 'PenTool', desc: '運用草稿計算板進行推導與繪圖' },
   { id: 'grade4-explorer', title: '進階突破', icon: 'Lightbulb', desc: '成功解出任一題四年級進階題目' },
   { id: 'master-all', title: '全單元精熟', icon: 'Trophy', desc: '累計達成 21 題全數正確' }
 ];
