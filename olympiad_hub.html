@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#f8fafc">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="奧林匹亞數學 (Mathematical Olympiad) 全方位知識庫與互動指南：涵蓋四大核心領域、經典定理、思考方法、競賽體系與典範例題。">
+  <title>奧林匹亞數學知識庫 | Olympiad Mathematics Hub</title>
+
+  <!-- KaTeX for Math Equations -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Global Navigation Header -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="#" class="brand-logo" aria-label="奧林匹亞數學知識庫 首頁">
+        <span class="logo-symbol">$\Omega$</span>
+        <span class="logo-text">奧數智庫 <span>O-Math</span></span>
+      </a>
+
+      <nav class="main-nav" id="main-nav" aria-label="主要導覽">
+        <ul class="nav-links">
+          <li><a href="#overview">起源背景</a></li>
+          <li><a href="#domains">四大領域</a></li>
+          <li><a href="#comparison">常規 vs 奧數</a></li>
+          <li><a href="#pathways">競賽體系</a></li>
+          <li><a href="#strategies">思維方法</a></li>
+          <li><a href="#showcase">經典名題</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <!-- Theme Toggle Button -->
+        <button id="theme-toggle" class="btn-icon" aria-label="切換深淺色外觀" title="切換深淺色外觀">
+          <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+          <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+        <!-- Mobile Menu Toggle Button -->
+        <button id="menu-toggle" class="btn-icon mobile-only" aria-label="開啟選單" aria-expanded="false" aria-controls="main-nav">
+          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="hero-section" id="hero">
+    <div class="hero-content">
+      <div class="badge-pill">International Mathematical Olympiad</div>
+      <h1 class="hero-title">探索思維極限的<br><span class="gradient-text">奧林匹亞數學</span></h1>
+      <p class="hero-subtitle">
+        以極簡初等數學為語言，追求極致洞察力、嚴謹論證與奇思妙想。<br>
+        不依賴大學微積分，卻孕育出眾多菲爾茲獎得主與現代科學先驅。
+      </p>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-number">1959</div>
+          <div class="stat-label">創立年份 (羅馬尼亞)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">4 大</div>
+          <div class="stat-label">核心支柱學科</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">全球參賽國與地區</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">6 題</div>
+          <div class="stat-label">IMO 兩天 9 小時考驗</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <main class="site-main">
+
+    <!-- Section 1: Overview & Definition -->
+    <section class="content-section" id="overview">
+      <div class="section-header">
+        <h2 class="section-title">什麼是奧林匹亞數學？</h2>
+        <p class="section-desc">起源、歷史脈絡與其在現代科學教育中的獨特定位</p>
+      </div>
+      <div class="grid-two-col">
+        <div class="info-card highlight-border">
+          <div class="card-icon">🏛️</div>
+          <h3>定義與歷史傳承</h3>
+          <p>
+            奧林匹亞數學（Mathematical Olympiad，簡稱奧數）起源於 19 世紀末的東歐（如 1894 年匈牙利 Eötvös 競賽）。1959 年，首屆<strong>國際數學奧林匹克 (IMO)</strong> 於羅馬尼亞舉辦，由 7 個國家創立，發展至今已成為全球公認水準最高的青少年科學競賽。
+          </p>
+          <p>
+            奧數並不是提早學習大學的高等數學（如微積分或複變函數），而是以<strong>中學數學</strong>能理解的範疇為基石，探索邏輯推演與問題解決的最深維度。
+          </p>
+        </div>
+        <div class="info-card">
+          <div class="card-icon">💡</div>
+          <h3>核心本質：思維的藝術</h3>
+          <p>
+            奧數的本質是<strong>「發現隱藏規律、巧妙構造模型、給出無懈可擊的證明」</strong>。
+          </p>
+          <ul class="feature-bullets">
+            <li><strong>極簡工具，高維洞察</strong>：不需要繁複的高等計算器，純靠紙筆與嚴密思考。</li>
+            <li><strong>非標準化問題</strong>：每道題目皆為全新設計，沒有標準公式可直接套用。</li>
+            <li><strong>構造與不變量</strong>：在變幻莫測的條件下抓住本質不變的核心屬性。</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Four Core Domains (Interactive filter) -->
+    <section class="content-section" id="domains">
+      <div class="section-header">
+        <h2 class="section-title">奧數四大核心領域</h2>
+        <p class="section-desc">被稱為奧數四大支柱（Algebra, Number Theory, Geometry, Combinatorics）的專題地圖</p>
+      </div>
+
+      <!-- Domain Tab Controls -->
+      <div class="tab-controls" role="tablist" aria-label="四大領域篩選">
+        <button class="tab-btn active" role="tab" aria-selected="true" data-domain="all">全部領域</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-domain="algebra">代數 (Algebra)</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-domain="number-theory">數論 (Number Theory)</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-domain="geometry">幾何 (Geometry)</button>
+        <button class="tab-btn" role="tab" aria-selected="false" data-domain="combinatorics">組合 (Combinatorics)</button>
+      </div>
+
+      <!-- Domain Cards Grid -->
+      <div class="cards-grid" id="domain-cards">
+
+        <!-- Algebra Card -->
+        <article class="domain-card" data-domain="algebra">
+          <div class="domain-header">
+            <span class="domain-tag tag-algebra">代數 Algebra</span>
+            <span class="domain-icon">∑</span>
+          </div>
+          <h3 class="domain-title">不等式、多項式與函數方程</h3>
+          <p class="domain-intro">不只是解聯立方程式，而是探討結構對稱性、極值邊界與映射特性。</p>
+          <div class="domain-topics">
+            <div class="topic-item">
+              <strong>經典不等式：</strong>
+              <span>AM-GM、柯西 (Cauchy-Schwarz)、赫爾德 (Hölder)、琴生 (Jensen)</span>
+              <div class="math-preview">$$\left(\sum_{i=1}^n a_i b_i\right)^2 \le \left(\sum_{i=1}^n a_i^2\right)\left(\sum_{i=1}^n b_i^2\right)$$</div>
+            </div>
+            <div class="topic-item">
+              <strong>函數方程 (Functional Equations)：</strong>
+              <span>求未知函數 $f(x)$ 滿足的代數恆等式（如柯西方程 $f(x+y) = f(x)+f(y)$）</span>
+            </div>
+            <div class="topic-item">
+              <strong>多項式理論：</strong>
+              <span>韋達定理、整係數多項式不可約性（艾森斯坦判準）、代數基本定理</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Number Theory Card -->
+        <article class="domain-card" data-domain="number-theory">
+          <div class="domain-header">
+            <span class="domain-tag tag-number">數論 Number Theory</span>
+            <span class="domain-icon">ℤ</span>
+          </div>
+          <h3 class="domain-title">整數結構、同餘與不定方程</h3>
+          <p class="domain-intro">高斯稱數論為「數學之后」，研究最純粹的整數、質數與可除性法則。</p>
+          <div class="domain-topics">
+            <div class="topic-item">
+              <strong>同餘理論與模算術：</strong>
+              <span>費馬小定理、歐拉定理、威爾遜定理、中國剩餘定理 (CRT)</span>
+              <div class="math-preview">$$a^{p-1} \equiv 1 \pmod{p} \quad (\gcd(a, p) = 1)$$</div>
+            </div>
+            <div class="topic-item">
+              <strong>丟番圖方程 (Diophantine Eq)：</strong>
+              <span>求解未知數為整數的方程（佩爾方程 $x^2 - d y^2 = 1$、勾股數）</span>
+            </div>
+            <div class="topic-item">
+              <strong>質數與因子分佈：</strong>
+              <span>算術基本定理、p-進估值 (Lifting The Exponent Lemma, LTE)</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Geometry Card -->
+        <article class="domain-card" data-domain="geometry">
+          <div class="domain-header">
+            <span class="domain-tag tag-geometry">幾何 Geometry</span>
+            <span class="domain-icon">△</span>
+          </div>
+          <h3 class="domain-title">歐氏平面幾何、圓與變換</h3>
+          <p class="domain-intro">不藉助坐標解析（避免繁複微積分），純依賴空間論證、輔助線與投影變換。</p>
+          <div class="domain-topics">
+            <div class="topic-item">
+              <strong>共線與共點定理：</strong>
+              <span>塞瓦定理 (Ceva's Theorem)、梅涅勞斯定理 (Menelaus's Theorem)</span>
+              <div class="math-preview">$$\frac{AF}{FB} \cdot \frac{BD}{DC} \cdot \frac{CE}{EA} = 1$$</div>
+            </div>
+            <div class="topic-item">
+              <strong>圓的進階性質：</strong>
+              <span>圓幕定理、根軸 (Radical Axis) 與根心、四點共圓判別法</span>
+            </div>
+            <div class="topic-item">
+              <strong>現代幾何轉換：</strong>
+              <span>反演變換 (Inversion)、調和點列、射影幾何交比</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Combinatorics Card -->
+        <article class="domain-card" data-domain="combinatorics">
+          <div class="domain-header">
+            <span class="domain-tag tag-combinatorics">組合 Combinatorics</span>
+            <span class="domain-icon">⚄</span>
+          </div>
+          <h3 class="domain-title">離散結構、計數、圖論與博弈</h3>
+          <p class="domain-intro">奧數中最富創造力的領域，往往題目最容易讀懂，但解法最難以捉摸。</p>
+          <div class="domain-topics">
+            <div class="topic-item">
+              <strong>核心原理：</strong>
+              <span>鴿籠原理（抽屜原理）、極端原理（考慮最長/最大/邊界元素）</span>
+              <div class="math-preview">$$n+1 \text{ 個物體放入 } n \text{ 個抽屜，必有一抽屜至少有 } 2 \text{ 個}$$</div>
+            </div>
+            <div class="topic-item">
+              <strong>不變量與操作：</strong>
+              <span>操作遊戲、染色原理、奇偶性與單調不變量 (Monovariants)</span>
+            </div>
+            <div class="topic-item">
+              <strong>基礎圖論與計數：</strong>
+              <span>雙重計數法、容斥原理、樹與平面圖歐拉公式 ($V - E + F = 2$)</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Section 3: Regular Math vs Olympiad Math Table -->
+    <section class="content-section" id="comparison">
+      <div class="section-header">
+        <h2 class="section-title">常規學校數學 vs. 奧林匹亞數學</h2>
+        <p class="section-desc">兩者並非優劣之別，而是培養目標與思維維度的根本不同</p>
+      </div>
+
+      <div class="table-container">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th scope="col">比較維度</th>
+              <th scope="col">學校常規課程數學</th>
+              <th scope="col" class="highlight-col">奧林匹亞數學 (Olympiad)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">核心宗旨</th>
+              <td>普及科學基礎、掌握通用運算與應用常識</td>
+              <td class="highlight-col">鍛鍊深度邏輯思考、抽象洞察與創造性證明</td>
+            </tr>
+            <tr>
+              <th scope="row">所用工具</th>
+              <td>重視既定公式、標準程序與計算器/微積分</td>
+              <td class="highlight-col">限定於初等數學工具，追求巧思構造與極致推演</td>
+            </tr>
+            <tr>
+              <th scope="row">解題特徵</th>
+              <td>題型明確、步驟標準化、熟練即可得分</td>
+              <td class="highlight-col">條件簡潔但切入點極隱蔽，無固定套路，重視跳躍性靈感</td>
+            </tr>
+            <tr>
+              <th scope="row">評分方式</th>
+              <td>大多為選擇題、填空題與分步計分計算題</td>
+              <td class="highlight-col">以長篇大題論證（Proof）為主，講求無漏洞嚴密邏輯</td>
+            </tr>
+            <tr>
+              <th scope="row">時間壓力</th>
+              <td>題量大，平均每題需在 1～3 分鐘內解出</td>
+              <td class="highlight-col">題量極少，IMO 每天 3 題給予長達 4.5 小時沉思構想</td>
+            </tr>
+            <tr>
+              <th scope="row">適合受眾</th>
+              <td>所有接受基礎國民教育的學生</td>
+              <td class="highlight-col">對純粹數學有強烈探索熱情、能耐受長時間解題挫折的學生</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 4: Competition Pathways -->
+    <section class="content-section" id="pathways">
+      <div class="section-header">
+        <h2 class="section-title">全球競賽與選拔進階路徑</h2>
+        <p class="section-desc">通往世界最高殿堂 IMO（國際數學奧林匹克）的金字塔體系</p>
+      </div>
+
+      <div class="pathway-tabs">
+        <button class="path-btn active" data-path="tw">台灣選拔體系</button>
+        <button class="path-btn" data-path="us">美國選拔體系 (MAA)</button>
+        <button class="path-btn" data-path="cn">中國大陸選拔體系</button>
+      </div>
+
+      <div class="pathway-display" id="pathway-display">
+        <!-- Taiwan Pathway Card (default) -->
+        <div class="pathway-card" id="path-tw">
+          <h3>🇹🇼 台灣高中數學奧林匹亞選拔流程</h3>
+          <ol class="stepper-list">
+            <li>
+              <div class="step-badge">1</div>
+              <div class="step-info">
+                <h4>校內初選 & 全國初選</h4>
+                <p>各高中校內推薦或透過全國數學能力競賽初試篩選潛力選手。</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-badge">2</div>
+              <div class="step-info">
+                <h4>全國高級中等學校數理學科能力競賽決賽 / 奧林匹亞複選</h4>
+                <p>全國各區頂尖學生參與複賽，考核深層證明與解題綜合力。</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-badge">3</div>
+              <div class="step-info">
+                <h4>國家選訓營 (MOP Training Camp)</h4>
+                <p>前數十名優秀學生進入第一、第二階段集訓，接受國內外教授高強度特訓。</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-badge">4</div>
+              <div class="step-info">
+                <h4>選拔 6 位國家正式代表隊國手 (IMO Team)</h4>
+                <p>最終選拔出 6 位代表出征國際數學奧林匹克 (IMO)。</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- US Pathway Card -->
+        <div class="pathway-card hidden" id="path-us">
+          <h3>🇺🇸 美國數學競賽進階體系 (MAA AMC)</h3>
+          <ol class="stepper-list">
+            <li>
+              <div class="step-badge">1</div>
+              <div class="step-info">
+                <h4>AMC 10 / AMC 12 (American Mathematics Competitions)</h4>
+                <p>25 題選擇題，測驗敏銳度與初等數學技巧，前 2.5% (AMC 10) 或前 5% (AMC 12) 晉級。</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-badge">2</div>
+              <div class="step-info">
+                <h4>AIME (American Invitational Mathematics Examination)</h4>
+                <p>15 題填空題（答案為 000～999 整數），時間 3 小時，難度大幅躍升。</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-badge">3</div>
+              <div class="step-info">
+                <h4>USA(J)MO (United States of America Mathematical Olympiad)</h4>
+                <p>全美僅約 500 人入選，為期兩天、6 題嚴格長篇大題證明。</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-badge">4</div>
+              <div class="step-info">
+                <h4>MOP 夏令營 & 6 人 IMO 美國隊</h4>
+                <p>集訓營考核後遴選出 6 位成員代表美國參加國際賽。</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <!-- China Pathway Card -->
+        <div class="pathway-card hidden" id="path-cn">
+          <h3>🇨🇳 中國高中數學聯賽與冬令營體系</h3>
+          <ol class="stepper-list">
+            <li>
+              <div class="step-badge">1</div>
+              <div class="step-info">
+                <h4>全國高中數學聯賽 (一試 & 二試)</h4>
+                <p>每年九月舉行，一試側重速度與高考拓展，二試為四道奧數大題（代數、數論、幾何、組合）。</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-badge">2</div>
+              <div class="step-info">
+                <h4>各省省隊選拔</h4>
+                <p>依據聯賽加權成績遴選各省頂尖選手，組成省代表隊。</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-badge">3</div>
+              <div class="step-info">
+                <h4>CMO 中國數學奧林匹克 (全國中學生數學冬令營)</h4>
+                <p>完全比照 IMO 賽制，選拔出前 60 名進入「國家集訓隊」並獲得保送資格。</p>
+              </div>
+            </li>
+            <li>
+              <div class="step-badge">4</div>
+              <div class="step-info">
+                <h4>國家隊選拔賽 $\rightarrow$ 6 人國家代表隊</h4>
+                <p>經數輪階段測驗選拔出最終 6 人出戰 IMO。</p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 5: Core Thinking Strategies -->
+    <section class="content-section" id="strategies">
+      <div class="section-header">
+        <h2 class="section-title">經典思維方法與解題心法</h2>
+        <p class="section-desc">面對前所未見的難題時，奧數選手腦海中的思考武器庫</p>
+      </div>
+
+      <div class="strategies-grid">
+        <div class="strategy-card">
+          <div class="strat-num">01</div>
+          <h3>構造法 (Construction)</h3>
+          <p>當題目要求證明「存在滿足某條件的物件」或「求極值是否能取到」時，主動設計並精確構建出一個符合條件的幾何圖形、數列或函數。</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-num">02</div>
+          <h3>不變量原理 (Invariance Principle)</h3>
+          <p>在涉及反覆操作、遊戲或動態變換的問題中，尋找在每次步驟中「保持不變」的量（如奇偶性、著色和、模餘數）來證明某個終局狀態是否可能達成。</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-num">03</div>
+          <h3>極端原理 (Extremal Principle)</h3>
+          <p>考慮集合中的「極端元素」——例如最大值、最小值、離某直線最近的點。極端元素往往具備最嚴苛的邊界條件，能直接打破僵局。</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-num">04</div>
+          <h3>化歸與映射 (Reduction & Bijections)</h3>
+          <p>將複雜或陌生的結構，透過一對一雙射映射（Bijection）轉化為熟悉的模型，如將組合排列轉換為網格路徑計數。</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-num">05</div>
+          <h3>反證法與無窮遞降法</h3>
+          <p>假設命題反面成立，並藉由嚴格推導展示出矛盾；或構造一個比「最小解」更小的正整數解，從而證明無解（費馬無窮遞降法）。</p>
+        </div>
+        <div class="strategy-card">
+          <div class="strat-num">06</div>
+          <h3>對稱性與齊次化 (Symmetry)</h3>
+          <p>若代數式具有輪換對稱性，可大膽假設順序（如 $a \le b \le c$），或透過引入參數齊次化，使得均值不等式能輕鬆展開。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Classic Problem Showcase -->
+    <section class="content-section" id="showcase">
+      <div class="section-header">
+        <h2 class="section-title">傳奇名題賞析</h2>
+        <p class="section-desc">體會奧數簡潔題目背後震撼人心的純粹巧思</p>
+      </div>
+
+      <div class="problem-card">
+        <div class="problem-meta">
+          <span class="problem-badge">IMO 1988 第 6 題</span>
+          <span class="problem-legend">歷史上最著名的難題之一（催生「韋達跳躍 Vieta Jumping」技巧）</span>
+        </div>
+        <div class="problem-statement">
+          <p>
+            <strong>題目：</strong>設 $a, b$ 為正整數，滿足 $ab + 1$ 能整除 $a^2 + b^2$。證明：
+          </p>
+          <div class="math-preview text-center">
+            $$k = \frac{a^2 + b^2}{ab + 1} \quad \text{必為某個整數的平方（即完全平方數）。}$$
+          </div>
+        </div>
+
+        <!-- Collapsible Solution Breakdown -->
+        <details class="solution-details">
+          <summary class="solution-summary">
+            <span>點擊展開思路精解：什麼是「韋達跳躍」？</span>
+            <span class="summary-arrow">▼</span>
+          </summary>
+          <div class="solution-content">
+            <p><strong>1. 反證法假設：</strong>假設存在整數 $k > 0$，使得 $k$ 不是完全平方數。在所有滿足條件的正整數對 $(a, b)$ 中，挑選使得 $a + b$ 達到<strong>最小</strong>的那組解（極端原理）。不妨設 $a \ge b$。</p>
+            <p><strong>2. 構造二次方程：</strong>原式整理為以 $a$ 為未知數的二次方程：
+              $$x^2 - (kb)x + (b^2 - k) = 0$$
+              已知它有一個正整數根 $x_1 = a$。由根與係數關係（韋達定理），另一個根 $x_2$ 滿足：
+              $$x_1 + x_2 = kb \implies x_2 = kb - a$$
+              $$x_1 x_2 = b^2 - k \implies x_2 = \frac{b^2 - k}{a}$$
+            </p>
+            <p><strong>3. 跳躍至更小解：</strong>由第一式知 $x_2$ 必為整數；透過論證可證明 $x_2 > 0$（因為若 $x_2 \le 0$ 會與 $k$ 非完全平方數矛盾），並且可以推導出：
+              $$x_2 = \frac{b^2 - k}{a} \lt \frac{b^2}{a} \le \frac{a^2}{a} = a$$
+              於是新數對 $(x_2, b)$ 也是正整數解，但其和 $x_2 + b \lt a + b$。
+            </p>
+            <p><strong>4. 矛盾產生：</strong>這與我們最初選取 $a + b$ 最小的假設產生嚴重矛盾！因此，$k$ 必然必須是完全平方數。證明完畢！</p>
+          </div>
+        </details>
+      </div>
+
+      <!-- Problem 2: Pigeonhole application -->
+      <div class="problem-card">
+        <div class="problem-meta">
+          <span class="problem-badge">組合幾何經典</span>
+          <span class="problem-legend">抽屜原理（鴿籠原理）的威力</span>
+        </div>
+        <div class="problem-statement">
+          <p>
+            <strong>題目：</strong>在任意 6 個人組成的聚會中，證明：要麼有 3 個人互相認識，要麼有 3 個人互相不認識（這也是拉姆齊數 $R(3, 3) = 6$ 的由來）。
+          </p>
+        </div>
+        <details class="solution-details">
+          <summary class="solution-summary">
+            <span>點擊展開思路精解</span>
+            <span class="summary-arrow">▼</span>
+          </summary>
+          <div class="solution-content">
+            <p><strong>證明過程：</strong></p>
+            <ol>
+              <li>任選其中一人 $A$。除了 $A$ 以外還有 5 個人。</li>
+              <li>每個人與 $A$ 的關係只有兩種：<strong>「認識」</strong>或<strong>「不認識」</strong>。</li>
+              <li>根據鴿籠原理（5 個人放入 2 個類別），至少有 $\lceil 5/2 \rceil = 3$ 個人與 $A$ 屬於同一種關係。</li>
+              <li><strong>情況一（至少 3 人與 $A$ 互相認識）：</strong>設這 3 個人為 $B, C, D$。若 $B, C, D$ 中有任意兩人互相認識（例如 $B$ 和 $C$ 認識），則 $A, B, C$ 三人即構成互相認識的三人組；若 $B, C, D$ 三人彼此皆不認識，則 $B, C, D$ 本身就是互相不認識的三人組！</li>
+              <li><strong>情況二（至少 3 人與 $A$ 互相不認識）：</strong>同理對稱論證。</li>
+            </ol>
+            <p>無論如何，必定存在 3 人互相認識或 3 人互相不認識。證畢！</p>
+          </div>
+        </details>
+      </div>
+
+    </section>
+
+    <!-- Section 7: Impact & Famous Alumni -->
+    <section class="content-section" id="impact">
+      <div class="section-header">
+        <h2 class="section-title">奧數對人類科學的深遠影響</h2>
+        <p class="section-desc">從競賽金牌到當代頂尖數學泰斗與科技領袖</p>
+      </div>
+
+      <div class="grid-three-col">
+        <div class="alumni-card">
+          <div class="alumni-avatar">🧮</div>
+          <h4>陶哲軒 (Terence Tao)</h4>
+          <span class="alumni-achievement">1988 IMO 金牌 (年僅13歲) · 2006 菲爾茲獎</span>
+          <p>當代最偉大的數學家之一，在調和分析、偏微分方程、組合數論等眾多領域取得劃時代突破。</p>
+        </div>
+
+        <div class="alumni-card">
+          <div class="alumni-avatar">🪐</div>
+          <h4>彼得·舒爾茨 (Peter Scholze)</h4>
+          <span class="alumni-achievement">3 屆 IMO 金牌 (2005-2007) · 2018 菲爾茲獎</span>
+          <p>創立狀似完備空間 (Perfectoid Spaces) 理論，徹底革新了現代算術代數幾何學。</p>
+        </div>
+
+        <div class="alumni-card">
+          <div class="alumni-avatar">💻</div>
+          <h4>在演算法與人工智慧中的延伸</h4>
+          <span class="alumni-achievement">密碼學 · 深度學習 · 晶片架構</span>
+          <p>奧數培養的極端值劃分、圖論構建與不變量抽象能力，是現代電腦演算法與大模型推理邏輯設計的根基。</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <p>奧林匹亞數學知識庫 · Olympiad Mathematics Hub</p>
+      <p class="footer-subtext">資料依據國際數學奧林匹亞 (IMO) 綱要與主流競賽文獻彙整製作。</p>
+    </div>
+  </footer>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+</body>
+</html>
