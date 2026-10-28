@@ -22,6 +22,7 @@ import {
   Trophy,
   CheckCircle2
 } from 'lucide-react';
+import { sounds } from '../utils/audio';
 
 const ICON_MAP = {
   Sparkles,
