@@ -79,8 +79,8 @@ export function App() {
         return;
       }
 
-      for (const gr of [3, 4]) {
-        for (const t of TOPICS_BY_GRADE[gr]) {
+      for (const gr of [3, 4, 5, 6]) {
+        for (const t of (TOPICS_BY_GRADE[gr] || [])) {
           const found = t.levels.find(l => l.id === hash);
           if (found) {
             setCurrentGrade(gr);

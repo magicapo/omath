@@ -36,10 +36,10 @@ export function Header({
           </div>
 
           {/* Desktop Grade / Navigation Selector */}
-          <div className="hidden sm:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner">
+          <div className="hidden sm:flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner gap-0.5">
             <button
               onClick={onOpenWiki}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
                 currentGrade === 'wiki'
                   ? 'bg-amber-500 text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
@@ -55,13 +55,13 @@ export function Header({
                   onSelectGrade(3);
                 }
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
                 currentGrade === 3
                   ? 'bg-amber-400 text-amber-950 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
               }`}
             >
-              <span>三年級 (基礎篇)</span>
+              <span>三年級</span>
             </button>
 
             <button
@@ -70,13 +70,43 @@ export function Header({
                   onSelectGrade(4);
                 }
               }}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
                 currentGrade === 4
                   ? 'bg-indigo-600 text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
               }`}
             >
-              <span>四年級 (進階篇)</span>
+              <span>四年級</span>
+            </button>
+
+            <button
+              onClick={() => {
+                if (currentGrade !== 5) {
+                  onSelectGrade(5);
+                }
+              }}
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                currentGrade === 5
+                  ? 'bg-teal-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+              }`}
+            >
+              <span>五年級</span>
+            </button>
+
+            <button
+              onClick={() => {
+                if (currentGrade !== 6) {
+                  onSelectGrade(6);
+                }
+              }}
+              className={`px-2.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1 cursor-pointer ${
+                currentGrade === 6
+                  ? 'bg-blue-700 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/60'
+              }`}
+            >
+              <span>六年級</span>
             </button>
           </div>
 
@@ -99,10 +129,10 @@ export function Header({
 
         {/* Mobile Grade / Navigation Switcher (Row 2) */}
         <div className="mt-2 pt-2 border-t border-slate-100 sm:hidden">
-          <div className="grid grid-cols-3 gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner">
+          <div className="grid grid-cols-5 gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200 shadow-inner text-center">
             <button
               onClick={onOpenWiki}
-              className={`py-1.5 px-1 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
+              className={`py-1.5 px-0.5 rounded-lg text-[11px] font-bold transition-all flex items-center justify-center ${
                 currentGrade === 'wiki'
                   ? 'bg-amber-500 text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 active:scale-98'
@@ -117,7 +147,7 @@ export function Header({
                   onSelectGrade(3);
                 }
               }}
-              className={`py-1.5 px-1 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
+              className={`py-1.5 px-0.5 rounded-lg text-[11px] font-bold transition-all flex items-center justify-center ${
                 currentGrade === 3
                   ? 'bg-amber-400 text-amber-950 shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 active:scale-98'
@@ -132,13 +162,43 @@ export function Header({
                   onSelectGrade(4);
                 }
               }}
-              className={`py-1.5 px-1 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1 ${
+              className={`py-1.5 px-0.5 rounded-lg text-[11px] font-bold transition-all flex items-center justify-center ${
                 currentGrade === 4
                   ? 'bg-indigo-600 text-white shadow-xs'
                   : 'text-slate-600 hover:text-slate-900 active:scale-98'
               }`}
             >
               <span>四年級</span>
+            </button>
+
+            <button
+              onClick={() => {
+                if (currentGrade !== 5) {
+                  onSelectGrade(5);
+                }
+              }}
+              className={`py-1.5 px-0.5 rounded-lg text-[11px] font-bold transition-all flex items-center justify-center ${
+                currentGrade === 5
+                  ? 'bg-teal-600 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 active:scale-98'
+              }`}
+            >
+              <span>五年級</span>
+            </button>
+
+            <button
+              onClick={() => {
+                if (currentGrade !== 6) {
+                  onSelectGrade(6);
+                }
+              }}
+              className={`py-1.5 px-0.5 rounded-lg text-[11px] font-bold transition-all flex items-center justify-center ${
+                currentGrade === 6
+                  ? 'bg-blue-700 text-white shadow-xs'
+                  : 'text-slate-600 hover:text-slate-900 active:scale-98'
+              }`}
+            >
+              <span>六年級</span>
             </button>
           </div>
         </div>

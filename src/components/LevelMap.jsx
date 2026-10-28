@@ -18,9 +18,10 @@ import {
   ShieldCheck,
   GitBranch,
   Grid,
+  BrainCircuit,
+  Trophy,
   CheckCircle2
 } from 'lucide-react';
-import { sounds } from '../utils/audio';
 
 const ICON_MAP = {
   Sparkles,
@@ -37,7 +38,9 @@ const ICON_MAP = {
   Compass,
   ShieldCheck,
   GitBranch,
-  Grid
+  Grid,
+  BrainCircuit,
+  Trophy
 };
 
 export function LevelMap({
@@ -48,9 +51,45 @@ export function LevelMap({
   onOpenSim,
   onOpenWiki
 }) {
-  const bannerGradient = grade === 4
+  const bannerGradient = grade === 6
+    ? "from-slate-800 via-blue-950 to-slate-900"
+    : grade === 5
+    ? "from-slate-800 via-teal-950 to-slate-900"
+    : grade === 4
     ? "from-slate-800 via-indigo-900 to-slate-900"
     : "from-slate-800 via-amber-950 to-slate-900";
+
+  const gradeBadgeText = grade === 6
+    ? "六年級綜合深造專題"
+    : grade === 5
+    ? "五年級高階拓展專題"
+    : grade === 4
+    ? "四年級進階專題"
+    : "三年級基礎專題";
+
+  const gradeTitle = grade === 6
+    ? "六年級高階思維：比例模型、數論不定方程與極值構造"
+    : grade === 5
+    ? "五年級思維躍遷：分數巧算、幾何模型與抽屜原理進階"
+    : grade === 4
+    ? "四年級進階專題：建立抽象模型與結構化分析思維"
+    : "三年級核心專題：奠定邏輯推理與具象建模基礎";
+
+  const gradeDesc = grade === 6
+    ? "聚焦小升初核心必考模型：比例與百分數、環形變速運動、圓柱圓錐立體幾何、不定方程、邏輯推理與博弈極值對策，全面銜接初中代數與競賽思維。所有題目皆已解鎖，可自由選擇單元練習。"
+    : grade === 5
+    ? "涵蓋分數裂項計算、蝴蝶與燕尾幾何模型、整除同餘數論、工程問題、時鐘角速度追及與容斥原理，實現從小學具象算術到抽象邏輯的全面躍遷。所有題目皆已解鎖，可自由選擇單元練習。"
+    : grade === 4
+    ? "涵蓋行程問題、抽屜原理、等積變形、流水行船與數論初步，掌握運動、幾何與整除的不變量分析方法。所有題目皆已解鎖，可自由選擇單元練習。"
+    : "涵蓋速算巧算、雞兔同籠、植樹間隔與和差倍等經典專題，透過具象教具與線段圖，建立條理分明的思考習慣。所有題目皆已解鎖，可自由選擇單元練習。";
+
+  const gradeSectionTitle = grade === 6
+    ? "六年級 7 大高階專題"
+    : grade === 5
+    ? "五年級 7 大拓展專題"
+    : grade === 4
+    ? "四年級 7 大進階專題"
+    : "三年級 7 大基礎專題";
 
   return (
     <div className="space-y-5 sm:space-y-7 pb-12 sm:pb-16">
@@ -60,18 +99,14 @@ export function LevelMap({
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-white/10 text-[11px] sm:text-xs font-semibold mb-2 text-slate-200 border border-white/10">
             <span>奧數思維體系</span>
             <span>·</span>
-            <span>{grade === 4 ? "四年級進階專題" : "三年級基礎專題"}</span>
+            <span>{gradeBadgeText}</span>
           </div>
 
           <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-1.5 leading-snug text-white">
-            {grade === 4
-              ? "四年級進階專題：建立抽象模型與結構化分析思維"
-              : "三年級核心專題：奠定邏輯推理與具象建模基礎"}
+            {gradeTitle}
           </h1>
           <p className="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl font-normal">
-            {grade === 4
-              ? "涵蓋行程問題、抽屜原理、等積變形、流水行船與數論初步，掌握運動、幾何與整除的不變量分析方法。所有題目皆已解鎖，可自由選擇單元練習。"
-              : "涵蓋速算巧算、雞兔同籠、植樹間隔與和差倍等經典專題，透過具象教具與線段圖，建立條理分明的思考習慣。所有題目皆已解鎖，可自由選擇單元練習。"}
+            {gradeDesc}
           </p>
         </div>
       </div>
@@ -81,7 +116,7 @@ export function LevelMap({
         <div className="flex items-center justify-between px-1">
           <div>
             <h2 className="text-base sm:text-xl font-bold text-slate-900 flex items-center gap-1.5">
-              <span>{grade === 4 ? "四年級 7 大進階專題" : "三年級 7 大基礎專題"}</span>
+              <span>{gradeSectionTitle}</span>
             </h2>
             <p className="text-xs text-slate-500">
               共 7 個專題單元，每個單元包含 3 道循序漸進的題型與互動教學模型

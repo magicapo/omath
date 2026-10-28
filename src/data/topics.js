@@ -1,4 +1,6 @@
 import { GRADE_4_TOPICS } from './topicsGrade4';
+import { GRADE_5_TOPICS } from './topicsGrade5';
+import { GRADE_6_TOPICS } from './topicsGrade6';
 
 export const GRADE_3_TOPICS = [
   {
@@ -676,5 +678,7 @@ export const GRADE_3_TOPICS = [
 
 export const TOPICS_BY_GRADE = {
   3: GRADE_3_TOPICS,
-  4: GRADE_4_TOPICS
+  4: GRADE_4_TOPICS,
+  5: GRADE_5_TOPICS,
+  6: GRADE_6_TOPICS
 };
